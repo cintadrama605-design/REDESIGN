@@ -1,0 +1,11 @@
+{
+  "collection": "Squarespace Commerce Product",
+  "fields": ["title", "image", "price", "description", "category", "url"],
+  "note": "Maps to a Commerce Product Block (Featured Release) and a Commerce Collection grid (Shop). Replace items with live product data at migration time — see documentation/Squarespace_Block_Map.md.",
+  "items": [
+    { "title": "Impound #1", "image": "", "price": "$4.99", "description": "First print. First blood.", "category": "Comic", "url": "" },
+    { "title": "Blasted #1", "image": "", "price": "$4.99", "description": "Every fight ends in ash.", "category": "Comic", "url": "" },
+    { "title": "Universe Enamel Pin Set", "image": "", "price": "$18.00", "description": "Five-pin set featuring the core cast.", "category": "Collectible", "url": "" },
+    { "title": "Impound Yard Jacket", "image": "", "price": "$68.00", "description": "Heavyweight jacket with embroidered wordmark.", "category": "Merch", "url": "" }
+  ]
+}

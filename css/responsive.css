@@ -1,0 +1,63 @@
+/* ==========================================================================
+   Impound Comics — Responsive
+   ========================================================================== */
+
+@media (max-width: 1100px){
+  .grid-4{ grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 900px){
+  :root{ --section-pad-x: 6%; }
+
+  .nav-links{
+    position: fixed;
+    top: 65px; left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--black);
+    border-bottom: 1px solid var(--line-soft);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s var(--ease);
+  }
+  .nav-links.is-open{ max-height: 320px; }
+  .nav-links a{
+    padding: 18px 6%;
+    border-top: 1px solid var(--line-soft);
+    width: 100%;
+  }
+  .nav-links a::after{ display: none; }
+  .nav-cta{ display: none; }
+  .nav-toggle{ display: flex; }
+
+  .grid-4, .grid-3{ grid-template-columns: repeat(2, 1fr); }
+
+  .featured{
+    grid-template-columns: 1fr;
+  }
+
+  .section-head{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .section-note{ text-align: left; max-width: none; }
+
+  .footer-inner{
+    grid-template-columns: 1fr 1fr;
+    row-gap: 40px;
+  }
+  .footer-brand{ grid-column: 1 / -1; }
+}
+
+@media (max-width: 560px){
+  .grid-4, .grid-3{ grid-template-columns: 1fr; }
+
+  .hero{ padding-top: 120px; }
+  .hero-actions{ flex-direction: column; align-items: stretch; }
+  .hero-actions .btn{ justify-content: center; }
+
+  .newsletter-form{ flex-direction: column; }
+
+  .footer-inner{ grid-template-columns: 1fr; }
+}

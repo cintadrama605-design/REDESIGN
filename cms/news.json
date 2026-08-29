@@ -1,0 +1,10 @@
+{
+  "collection": "Squarespace Blog",
+  "fields": ["title", "image", "date", "content", "excerpt"],
+  "note": "Maps to the News section's Blog Collection grid. Replace items with live blog posts at migration time — see documentation/Squarespace_Block_Map.md.",
+  "items": [
+    { "title": "Impound #1 Sells Out First Print Run", "image": "", "date": "2026-08-12", "excerpt": "The flagship issue is back on press after selling through in under three weeks.", "content": "" },
+    { "title": "HydroBeast Ongoing Series Announced", "image": "", "date": "2026-07-28", "excerpt": "The deep-sea horror one-shot is getting a full ongoing run starting this fall.", "content": "" },
+    { "title": "Meet The Art Team Behind Cautious", "image": "", "date": "2026-07-09", "excerpt": "A look at the noir palette and layout choices driving the series' tone.", "content": "" }
+  ]
+}

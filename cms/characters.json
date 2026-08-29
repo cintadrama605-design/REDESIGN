@@ -1,0 +1,11 @@
+{
+  "collection": "Squarespace Portfolio Collection",
+  "fields": ["name", "image", "role", "bio"],
+  "note": "Maps to the Universe section's Portfolio Collection grid. Replace items with live character data at migration time — see documentation/Squarespace_Block_Map.md.",
+  "items": [
+    { "name": "Impound", "image": "", "role": "The Reclaimer", "bio": "Shows up after everyone else has given up on a block. Doesn't ask who owned it first." },
+    { "name": "Blasted", "image": "", "role": "The Detonator", "bio": "Marcus Reyes turned a demolition accident into the only language he has left." },
+    { "name": "HydroBeast", "image": "", "role": "The Depth Walker", "bio": "Nobody's found where it comes from. Everybody's found where it leaves people." },
+    { "name": "Cautious", "image": "", "role": "The Tactician", "bio": "Elena Cho plans four moves past everyone else's last one." }
+  ]
+}

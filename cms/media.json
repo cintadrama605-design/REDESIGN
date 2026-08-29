@@ -1,0 +1,10 @@
+{
+  "collection": "Squarespace Video Collection",
+  "fields": ["title", "video_url", "thumbnail", "type", "duration"],
+  "note": "Maps to the Media section's Video Collection grid. Replace items with live video embeds at migration time — see documentation/Squarespace_Block_Map.md.",
+  "items": [
+    { "title": "Impound #1 — Teaser Trailer", "video_url": "", "thumbnail": "", "type": "Trailer", "duration": "1:32" },
+    { "title": "The Impound Yard", "video_url": "", "thumbnail": "", "type": "Animated Short", "duration": "4:10" },
+    { "title": "Behind The Ink", "video_url": "", "thumbnail": "", "type": "Behind The Scenes", "duration": "6:47" }
+  ]
+}
