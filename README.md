@@ -116,24 +116,28 @@ those alongside the actual Squarespace collections during migration.
   `prefers-reduced-motion` (scroll-snap and animations disable outright;
   content still renders, just without the motion).
 - **Hover:** magnetic buttons on primary CTAs, cursor-tracked 3D tilt on
-  cards, merch tiles, and the trading-card box, and an additive cursor
-  ring that never hides the native cursor — all scoped to `(hover: hover)
-  and (pointer: fine)`, so touch devices get the plain, fully-functional
+  cards (including bundle cards, as one group), merch shapes, the featured-
+  release art, and the trading-card box, and an additive cursor ring that
+  never hides the native cursor — all scoped to `(hover: hover) and
+  (pointer: fine)`, so touch devices get the plain, fully-functional
   fallback with nothing missing.
 - **Comic Explorer:** a 3D book shelf (steep shelf lean + live cursor
   tilt on hover) — click a cover and it FLIP-morphs into a full-screen
-  reader at 2x the original size, the cover swings open, and you flip
-  through 5 preview pages plus a closing CTA. Keyboard accessible (arrow
-  keys, Tab trap, Escape to close), degrades to instant open/close under
+  reader at 2x the original size, positioned toward the right with a
+  static 3D tilt, the cover swings open, and you flip through 5 preview
+  pages plus a closing CTA. Keyboard accessible (arrow keys, Tab trap,
+  Escape to close), degrades to instant open/close under
   `prefers-reduced-motion`.
 - **Trading Card Game:** a real 3D box (side panel + cursor tilt) — click
-  it (or "Preview 5 Cards") to deal 5 sample cards into a fanned hand,
-  each independently hoverable.
-- **Bundle products (Shop):** render as a hoverable stack of mini covers
-  instead of a single image, echoing the real site's fanned-covers bundle
-  banners.
-- **Socials:** a fanned "hand of cards" gallery styled after the Landon
-  Norris reference, in a light cream section — the one deliberate light
+  it (or "Preview 5 Cards") and 5 sample cards deal out on top of the box
+  into a fanned hand, each independently hoverable.
+- **Bundle products (Shop):** render as a stack of mini covers instead of
+  a single image, echoing the real site's fanned-covers bundle banners —
+  hovers as one group with the rest of the card, not per-cover.
+- **Merch:** individual CSS silhouette shapes (tee/long-sleeve/cap/beanie)
+  with an idle float plus cursor tilt — no card frame, no plain squares.
+- **Socials:** a plain row of pill links with a color-sweep hover fill —
+  no card imagery — in a light cream section, the one deliberate light
   break in an otherwise dark page.
 - **Officer Grey:** a red/black promo section for the found-footage horror
   movie sub-brand, styled apart from the rest of the site on purpose.

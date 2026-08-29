@@ -93,10 +93,11 @@
     });
   }
 
-  // Tilt-on-hover — cards, book covers, and merch tiles all get a
-  // cursor-tracked 3D tilt. Books get the most dramatic angle (they're
-  // already leaning in 3D on the shelf); cards/merch stay subtler.
-  var TILT_TARGETS = '.card, .book, .merch-tile .art, .tcg-box';
+  // Tilt-on-hover — cards (including bundle cards, as one group), book
+  // covers, merch shapes, the featured art, and the trading-card box all
+  // get a cursor-tracked 3D tilt. Books/box get the most dramatic angle
+  // (already leaning in 3D); everything else stays subtler.
+  var TILT_TARGETS = '.card, .book, .merch-shape-cut, .featured-art, .tcg-box';
   function tiltMaxDeg(el){
     if(el.classList.contains('book') || el.classList.contains('tcg-box')) return 16;
     return 12;
@@ -104,9 +105,6 @@
   if(fineHover && !reduceMotion){
     document.addEventListener('mousemove', function(e){
       var el = e.target.closest ? e.target.closest(TILT_TARGETS) : null;
-      // Bundle cards (.book-stack cover) already get per-cover hover-lift;
-      // skip the whole-card tilt there so the two effects don't fight.
-      if(el && el.classList.contains('card') && el.querySelector('.book-stack')) return;
       if(!el) return;
       var rect = el.getBoundingClientRect();
       var px = (e.clientX - rect.left) / rect.width;
@@ -134,7 +132,7 @@
         ring.classList.add('is-active');
         ringActive = true;
       }
-      var hoverTarget = e.target.closest ? e.target.closest('a, button, .book, .card, .tcg-box, .tcg-card, .stack-cover') : null;
+      var hoverTarget = e.target.closest ? e.target.closest('a, button, .book, .card, .tcg-box, .tcg-card, .stack-cover, .merch-shape, .featured-art') : null;
       ring.classList.toggle('is-hovering', !!hoverTarget);
     });
     document.addEventListener('mouseleave', function(){

@@ -129,13 +129,16 @@ html{
   transition: transform 0.25s var(--ease);
 }
 
-/* ---------- Tilt-on-hover (cards + merch tiles) ----------
+/* ---------- Tilt-on-hover (cards, merch shapes, featured art) ----------
    JS sets --rx/--ry per mousemove. Scoped to fine-pointer/hover-capable
    devices only, so touch/no-JS visitors keep components.css's plain
    translateY(-4px) lift — same specificity, this block wins here only
-   because the media query matches and it loads after components.css. */
+   because the media query matches and it loads after components.css.
+   Bundle cards (containing .book-stack) get one group tilt/lift like any
+   other card — the individual per-cover reveal lives in the book-stack
+   section below and stays independent of this. */
 @media (hover: hover) and (pointer: fine){
-  .card, .merch-tile .art{
+  .card, .merch-shape-cut, .featured-art{
     --rx: 0deg;
     --ry: 0deg;
   }
@@ -144,11 +147,14 @@ html{
     transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-4px) scale(1.02);
     transition: border-color 0.2s var(--ease), transform 0.08s linear;
   }
-  .merch-tile{ perspective: 900px; }
-  .merch-tile .art:hover{
-    transform: rotateX(var(--rx)) rotateY(var(--ry)) scale(1.05);
+  .merch-shape-cut:hover,
+  .merch-shape:focus-within .merch-shape-cut{
+    transform: perspective(700px) rotateX(var(--rx)) rotateY(var(--ry)) scale(1.08);
     transition: transform 0.08s linear;
-    box-shadow: 0 20px 34px rgba(0,0,0,0.4);
+  }
+  .featured .art.featured-art:hover{
+    transform: perspective(1400px) rotateX(var(--rx)) rotateY(var(--ry)) scale(1.015);
+    transition: transform 0.08s linear;
   }
 }
 
@@ -253,7 +259,8 @@ html{
   z-index: 200;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  padding-right: clamp(24px, 12vw, 160px);
 }
 .book-reader[hidden]{ display: none; }
 
@@ -293,6 +300,13 @@ html{
 }
 .book-reader-close:hover{ border-color: var(--green); color: var(--green); }
 
+/* Static wrapper tilt — kept separate from #book-3d so js/book-reader.js's
+   FLIP-morph (which sets #book-3d's own inline transform) composes with
+   this rotation instead of overwriting it. */
+.book-3d-tilt{
+  transform-style: preserve-3d;
+  transform: perspective(2400px) rotateY(-13deg);
+}
 .book-3d{
   position: relative;
   width: min(480px, 86vw);
@@ -412,106 +426,86 @@ html{
   color: var(--gray);
 }
 
+@media (max-width: 900px){
+  .book-reader{ justify-content: center; padding-right: 0; }
+  .book-3d-tilt{ transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce){
   .page{ transition: none; }
   .book-reader-scrim, .book-reader-stage{ transition: none; }
 }
 
 /* ==========================================================================
-   Socials fan gallery — "hand of cards" arc, styled after the Landon
-   Norris reference (see conversation). No native Squarespace block; see
-   documentation/Migration_Guide.md §5.
+   Socials — a plain link section (no card imagery), each platform a big
+   pill with a color-sweep hover fill. No native Squarespace block for the
+   sweep animation; falls back trivially to a plain Social Links Block.
    ========================================================================== */
-.fan-gallery{
-  position: relative;
-  height: clamp(280px, 40vw, 420px);
+.social-links-row{
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  margin: 20px 0 48px;
+  gap: 14px 12px;
+  margin: 8px 0;
 }
-.fan-card{
-  position: absolute;
-  width: clamp(110px, 12vw, 150px);
-  aspect-ratio: 2 / 3;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 18px 34px rgba(0,0,0,0.18);
-  transition: transform 0.35s var(--ease), box-shadow 0.2s var(--ease);
-  display: block;
-}
-.fan-card-art{
+.social-link{
   position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(155deg, var(--art-a, #1c1c1a), var(--art-b, #050505) 70%);
-}
-.fan-card-art::after{
-  content: attr(data-glyph);
-  position: absolute;
-  right: 10px;
-  bottom: 6px;
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  color: rgba(244,241,232,0.35);
-}
-@media (hover: hover) and (pointer: fine){
-  .fan-card:hover{
-    transform: translateY(-18px) rotate(0deg) !important;
-    z-index: 200 !important;
-    box-shadow: 0 26px 44px rgba(0,0,0,0.28);
-  }
-}
-
-p.fan-follow{
-  text-align: center;
-  font-family: var(--font-display);
-  text-transform: none;
-  font-size: 1.1rem;
+  overflow: hidden;
+  display: inline-block;
+  padding: 16px 32px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
   color: var(--black);
+  transition: transform 0.25s var(--ease), border-color 0.25s var(--ease);
 }
-.fan-links{
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 22px;
-  margin-top: 16px;
-}
-.fan-links a{
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+.social-link-text{
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-family: var(--font-display);
   text-transform: uppercase;
-  color: var(--gray-dim);
+  font-size: clamp(1rem, 2.4vw, 1.5rem);
+  letter-spacing: 0.01em;
 }
-.fan-links a:hover{ color: var(--black); }
-
-@media (max-width: 900px){
-  .fan-card{ width: clamp(80px, 20vw, 110px); }
+.social-link::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--green);
+  transform: translateX(-101%);
+  transition: transform 0.3s var(--ease);
+}
+.social-link:hover,
+.social-link:focus-visible{
+  border-color: var(--green);
+  transform: translateY(-3px) scale(1.04);
+}
+.social-link:hover::before,
+.social-link:focus-visible::before{
+  transform: translateX(0);
 }
 
 @media (prefers-reduced-motion: reduce){
-  .fan-card{ transition: none; }
+  .social-link, .social-link::before{ transition: none; }
 }
 
 /* ==========================================================================
    Book stack — bundle products (Shop). A loose overlapping stack of mini
-   covers, each independently hoverable, echoing the real site's fanned-
-   covers bundle banners. No native Squarespace equivalent — see
-   documentation/Migration_Guide.md §5.
+   covers, echoing the real site's fanned-covers bundle banners. Hovers as
+   one group with the rest of the card (its .card:hover tilt/lift above),
+   not per-cover — no separate hover rule here on purpose. No native
+   Squarespace equivalent — see documentation/Migration_Guide.md §5.
    ========================================================================== */
 .book-stack{
   position: relative;
   display: block;
   aspect-ratio: 3 / 4;
-  perspective: 1200px;
 }
 .stack-cover{
   position: absolute;
   inset: 14% 20%;
   display: block;
-  transition: transform 0.3s var(--ease), z-index 0s;
 }
 .stack-cover .art{
   width: 100%;
@@ -520,26 +514,16 @@ p.fan-follow{
   border-radius: 4px;
   box-shadow: 4px 8px 18px rgba(0,0,0,0.5);
 }
-@media (hover: hover) and (pointer: fine){
-  .stack-cover:hover{
-    transform: translate(0, -14px) rotate(0deg) scale(1.12) !important;
-    z-index: 50 !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce){
-  .stack-cover{ transition: none; }
-}
 
 /* ==========================================================================
    Trading Card Game — 3D box + click-to-open 5-card preview. No native
    Squarespace equivalent — see documentation/Migration_Guide.md §5.
    ========================================================================== */
 .tcg-stage{
+  position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  justify-content: center;
+  min-height: clamp(260px, 30vw, 340px);
   perspective: 1400px;
 }
 .tcg-box{
@@ -585,22 +569,24 @@ p.fan-follow{
   box-shadow: 10px 16px 34px rgba(0,0,0,0.6);
 }
 .tcg-stage.is-open .tcg-box{
-  transform: rotateY(-24deg) translateX(-26%) translateY(10px) scale(0.6);
-  opacity: 0.5;
+  transform: rotateY(-24deg) translateY(14px) scale(0.62);
+  opacity: 0.4;
 }
 
+/* Positioned on top of the box (higher z-index, same stacking context) so
+   cards visibly deal out over it rather than appearing in a separate area. */
 .tcg-cards{
-  position: relative;
+  position: absolute;
+  inset: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  height: 0;
-  padding-top: 4px;
+  z-index: 5;
+  pointer-events: none;
   perspective: 1200px;
-  transition: height 0.4s var(--ease);
 }
 .tcg-stage.is-open .tcg-cards{
-  height: clamp(170px, 22vw, 210px);
+  pointer-events: auto;
 }
 .tcg-card{
   position: absolute;
@@ -610,7 +596,7 @@ p.fan-follow{
   overflow: hidden;
   background: var(--black-2);
   border: 1px solid var(--line);
-  box-shadow: 6px 10px 22px rgba(0,0,0,0.5);
+  box-shadow: 6px 14px 28px rgba(0,0,0,0.65);
   display: flex;
   flex-direction: column;
   opacity: 0;

@@ -363,14 +363,14 @@
     },
 
     // Real: apparel line shown in the site's Merch section (tee, long
-    // sleeve, cap, beanie), all carrying the green Impound wordmark —
-    // no per-item pricing was shown on screen, so this mirrors the real
-    // layout: a plain image grid with one shared "Shop Now" CTA below.
+    // sleeve, cap, beanie), all carrying the green Impound wordmark — no
+    // per-item pricing was shown on screen. Rendered as individual 3D
+    // silhouette shapes (css/interactions.css .merch-shape-*), not cards.
     merch: [
-      { name: "Impound Logo Tee", glyph: "TEE", image: "", alt: "Impound logo t-shirt", artA: "#141412", artB: "#050505" },
-      { name: "Impound Logo Long Sleeve", glyph: "LS", image: "", alt: "Impound logo long sleeve shirt", artA: "#141412", artB: "#050505" },
-      { name: "Impound Logo Cap", glyph: "CAP", image: "", alt: "Impound logo cap", artA: "#141412", artB: "#050505" },
-      { name: "Impound Logo Beanie", glyph: "BN", image: "", alt: "Impound logo beanie", artA: "#141412", artB: "#050505" }
+      { name: "Impound Logo Tee", shape: "tee", artA: "#1c2a12", artB: "#050505" },
+      { name: "Impound Logo Long Sleeve", shape: "long-sleeve", artA: "#151512", artB: "#050505" },
+      { name: "Impound Logo Cap", shape: "cap", artA: "#1c2a12", artB: "#050505" },
+      { name: "Impound Logo Beanie", shape: "beanie", artA: "#151512", artB: "#050505" }
     ],
 
     // Real: confirmed platforms from the site's header social icons.
@@ -410,7 +410,7 @@
     if(!el) return;
     el.innerHTML =
       '<div class="featured reveal">' +
-        artHtml(f, 'art-wide') +
+        artHtml(f, 'art-wide featured-art') +
         '<div class="featured-copy">' +
           '<div class="featured-meta"><span class="badge">' + f.badge + '</span></div>' +
           '<h3 style="font-size:clamp(1.8rem,4vw,2.6rem)">' + f.title + '</h3>' +
@@ -428,7 +428,7 @@
   function renderGrid(id, items, builder){
     var el = document.getElementById(id);
     if(!el) return;
-    el.innerHTML = items.map(function(item){ return builder(item); }).join('');
+    el.innerHTML = items.map(function(item, i){ return builder(item, i); }).join('');
   }
 
   /**
@@ -594,31 +594,36 @@
       '</div>';
   }
 
-  function fanCard(s, i, total){
-    var mid = (total - 1) / 2;
-    var offset = i - mid;
-    var rotate = offset * 9;
-    var translateX = offset * 34;
-    var translateY = Math.abs(offset) * 18;
-    var z = 100 - Math.round(Math.abs(offset) * 10);
+  /**
+   * A single social platform link — large wordmark-style text with a
+   * cursor-tracked 3D tilt and a color-sweep hover fill (see
+   * css/interactions.css .social-link). No card/photo, per the "just
+   * treat as a social media section" direction.
+   */
+  function socialLinkHtml(s){
     return (
-      '<a href="#" class="fan-card" style="transform:translate(' + translateX + 'px,' + translateY + 'px) rotate(' + rotate + 'deg);z-index:' + z + '" aria-label="Follow on ' + s.platform + '">' +
-        '<span class="fan-card-art" data-glyph="' + s.glyph + '" style="--art-a:' + s.artA + ';--art-b:' + s.artB + '"></span>' +
+      '<a href="#" class="social-link reveal" aria-label="Follow Impound on ' + s.platform + '">' +
+        '<span class="social-link-text">' + s.platform + '</span>' +
       '</a>'
     );
   }
 
   function renderSocials(){
     var items = CONTENT.socials;
-    var el = document.getElementById('socials-fan');
+    var el = document.getElementById('socials-links');
     if(!el) return;
-    el.innerHTML = items.map(function(s, i){ return fanCard(s, i, items.length); }).join('');
+    el.innerHTML = items.map(socialLinkHtml).join('');
   }
 
-  function merchTile(m){
+  /**
+   * Individual 3D merch item — a clip-path silhouette (tee/long-sleeve/
+   * cap/beanie) rather than a card, with its own cursor tilt + idle
+   * float (css/interactions.css .merch-shape).
+   */
+  function merchTile(m, i){
     return (
-      '<div class="merch-tile reveal">' +
-        artHtml(m, 'art-square') +
+      '<div class="merch-shape reveal" data-shape="' + m.shape + '" style="--art-a:' + m.artA + ';--art-b:' + m.artB + ';--float-delay:' + (i * 0.35) + 's">' +
+        '<span class="merch-shape-cut shape-' + m.shape + '"></span>' +
         '<p>' + m.name + '</p>' +
       '</div>'
     );

@@ -91,8 +91,8 @@ and the comments as the in-context reminder while you're actually building.
 | Trading Card Game | Fluid Engine Section, or Commerce Product Block | — / Products | `cms/cardgame.json` |
 | Shop | Summary Block (v2) | Products | `cms/products.json` |
 | Officer Grey (promo) | Fluid Engine Section + Custom CSS | — | `cms/officer-grey.json` |
-| Merch | Summary Block (v2) | Products (Merch category) | `cms/merch.json` |
-| Socials (fan gallery) | BESPOKE — Code Injection, see §5 | — | `cms/socials.json` |
+| Merch | Summary Block (v2), or Custom CSS for the silhouette shapes | Products (Merch category) | `cms/merch.json` |
+| Socials | Native Social Links Block (Custom CSS only for the hover sweep) | — | `cms/socials.json` |
 | News | Summary Block (v2) | Blog | `cms/news.json` |
 | Newsletter | Newsletter Block (native Email Campaigns signup) | — | — |
 
@@ -139,10 +139,10 @@ the preview is what you're populating:
   `subtitle`, `description`, `meta`, `image`).
 - `cms/officer-grey.json` → single Product or static Section content
   (`title`, `tagline`, `date`, `description`, `cta`).
-- `cms/merch.json` → Products collection, Merch category (`name`, `image` —
-  no price field; the real site shows a plain image grid with one shared CTA).
+- `cms/merch.json` → Products collection, Merch category (`name`, `shape`,
+  `image` — no price field; `shape` drives the clip-path silhouette).
 - `cms/socials.json` → static Section content, not a real Collection
-  (`platform`, `image`, `url`) — powers the fan gallery, see §5.
+  (`platform`, `url`) — maps straight to a native Social Links Block.
 - `cms/news.json` → Blog collection (`title`, `date`, `excerpt`, `content`, `image`).
 
 **What's real vs. placeholder**: titles, character/creator names, and
@@ -217,30 +217,41 @@ of changes was built for). This needs:
 ### 5c. Hover micro-interactions (`css/interactions.css`, `js/app.js`)
 
 Magnetic buttons (`.magnetic`), cursor-tracked 3D tilt (cards, book covers,
-merch tiles, the trading-card box), and the additive cursor ring
-(`#cursor-ring`) are all plain JS mousemove handlers plus CSS — copy the
-relevant blocks from `js/app.js` (magnetic/tilt/cursor sections, clearly
-commented) into Code Injection. All are wrapped in `(hover: hover) and
-(pointer: fine)` checks and a `prefers-reduced-motion` check, so they no-op
-safely on touch devices — nothing to adjust there. Card hover lift/border-
-glow itself (no tilt) is closer to native — Summary Block v2 has its own
-built-in hover options that may already cover it without custom code.
+merch shapes, the featured-release art, the trading-card box), and the
+additive cursor ring (`#cursor-ring`) are all plain JS mousemove handlers
+plus CSS — copy the relevant blocks from `js/app.js` (magnetic/tilt/cursor
+sections, clearly commented) into Code Injection. All are wrapped in
+`(hover: hover) and (pointer: fine)` checks and a `prefers-reduced-motion`
+check, so they no-op safely on touch devices — nothing to adjust there.
+Card hover lift/border-glow itself (no tilt) is closer to native — Summary
+Block v2 has its own built-in hover options that may already cover it
+without custom code.
 
-Two more bespoke pieces in this same "hover interaction" family, each with
-its own fallback:
-- **Bundle book-stack** (Shop): bundle products render as a hoverable
-  stack of mini covers instead of one image — see §2's Shop row. Falls
-  back to a single product image with zero code changes.
-- **Trading-card box + 5-card preview** (§2's Trading Card Game row):
-  covered in its own tier below since it needs actual Code Injection
-  (JS state, not just CSS), unlike the tilt effects above.
+One more bespoke piece in this family, with its own fallback:
+- **Bundle book-stack** (Shop): bundle products render as a stack of mini
+  covers instead of one image — see §2's Shop row. It hovers as *one group*
+  along with the rest of the card (the same tilt/lift as every other card,
+  applied to the whole stack together) rather than each cover independently
+  — deliberately simpler than an earlier version of this build that gave
+  each cover its own hover. Falls back to a single product image with zero
+  code changes.
+
+**Merch shapes** (`css/interactions.css` `.merch-shape-*`, `.shape-tee`
+etc.): CSS `clip-path` silhouettes with an idle float animation plus the
+same cursor tilt — pure CSS + the shared tilt JS, no separate Code
+Injection item. Falls back to plain product images with zero code changes
+if the silhouette look isn't wanted (see `cms/merch.json`).
 
 ### 5d. The 3D book shelf + click-to-open reader (`css/interactions.css`, `js/book-reader.js`)
 
-This and the fan gallery in §5e are the two features with **no native
-Squarespace equivalent at all**. The book shelf (`.shelf`/`.book`)
-FLIP-morphs into a full-screen reader on click, auto-opens its cover, and
-flips through 5 preview pages plus a closing CTA. To keep it in Squarespace:
+This and the trading-card pack-open in §5f are the two features with **no
+native Squarespace equivalent at all**. The book shelf (`.shelf`/`.book`)
+FLIP-morphs into a full-screen reader on click (positioned toward the
+right of the screen, with a static 3D tilt via the `.book-3d-tilt`
+wrapper — kept as a separate element from `#book-3d` on purpose, so the
+JS-driven FLIP transform and the CSS-driven static tilt don't fight over
+the same `transform` property), auto-opens its cover, and flips through 5
+preview pages plus a closing CTA. To keep it in Squarespace:
 
 1. Add `css/interactions.css`'s shelf/book/`.book-reader` rules and
    `js/book-reader.js` verbatim via Code Injection (Settings → Advanced →
@@ -263,28 +274,23 @@ top of that, not a structural requirement. `data-comic-index` and the
 `.book`/`.card` markup difference is the only thing that would need
 reverting in that case.
 
-### 5e. The Socials fan gallery (`css/interactions.css`, `js/content-loader.js`'s `fanCard()`)
+### 5e. Socials (`css/interactions.css` `.social-link`)
 
-The fanned "hand of cards" gallery — styled after the Landon Norris
-reference discussed during this build — has no native Squarespace block
-either. It's much simpler than the book reader (no click/open behavior,
-just an arced CSS layout): copy the `.fan-*` rules from
-`css/interactions.css` and the `fanCard()`/`renderSocials()` functions
-from `js/content-loader.js` into a Code Block on whichever page needs it,
-swapping `cms/socials.json`'s `image` field in for the generated
-placeholder art.
-
-**Fallback**: drop it for a native Social Links Block in the Footer
-(exactly what the real site's own social icons already map to) — the
-fan gallery is a stylistic flourish, not something the site depends on
-structurally.
+No longer a bespoke section — it's a plain row of pill links with a
+CSS-only color-sweep hover (`::before` sliding in on `:hover`/
+`:focus-visible`), no JS beyond the render loop and no card imagery. Maps
+directly to a native Social Links Block; recreate the sweep with Custom
+CSS on that block's links, or just skip it and use the block's default
+hover state.
 
 ### 5f. Trading-card box + 5-card preview (`css/interactions.css`, `js/tcg.js`)
 
 Clicking the "Impound Chaos" box (or the "Preview 5 Cards" button) deals
-5 sample cards out into a fanned, individually-hoverable hand — same
-family as the book reader in terms of needing real JS state, but far
-simpler (one open/close toggle, no page-flip sequencing). To keep it:
+5 sample cards out on top of the box (`.tcg-cards` is absolutely
+positioned over `.tcg-box` with a higher z-index, not a separate area
+below it) into a fanned, individually-hoverable hand — same family as the
+book reader in terms of needing real JS state, but far simpler (one
+open/close toggle, no page-flip sequencing). To keep it:
 
 1. Add the `.tcg-*` rules from `css/interactions.css` and `js/tcg.js`
    verbatim via Code Injection.

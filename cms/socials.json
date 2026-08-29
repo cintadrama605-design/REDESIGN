@@ -1,14 +1,14 @@
 {
-  "collection": "Static Section content (bespoke fan gallery, not a Collection)",
-  "fields": ["platform", "image", "url"],
-  "note": "Real: confirmed platforms from the live site's header social icons — TikTok, Instagram, YouTube, Discord, X, Twitch, Facebook. Rendered as a fanned 'hand of cards' gallery (css/interactions.css, js/content-loader.js's fanCard()), styled after the Landon Norris reference discussed in conversation. No native Squarespace block — see documentation/Migration_Guide.md §5 for the Code Injection version, or fall back to a plain Social Links Block in the native Footer.",
+  "collection": "Static Section content, not a Collection",
+  "fields": ["platform", "url"],
+  "note": "Real: confirmed platforms from the live site's header social icons — TikTok, Instagram, YouTube, Discord, X, Twitch, Facebook. Rendered as a simple pill-link row with a CSS-only color-sweep hover (css/interactions.css .social-link, js/content-loader.js's socialLinkHtml()) — no card imagery, no JS beyond the render loop. Maps directly to a native Social Links Block; the hover sweep can be recreated with Custom CSS on that block or simply dropped.",
   "items": [
-    { "platform": "TikTok", "image": "", "url": "" },
-    { "platform": "Instagram", "image": "", "url": "" },
-    { "platform": "YouTube", "image": "", "url": "" },
-    { "platform": "Discord", "image": "", "url": "" },
-    { "platform": "X", "image": "", "url": "" },
-    { "platform": "Twitch", "image": "", "url": "" },
-    { "platform": "Facebook", "image": "", "url": "" }
+    { "platform": "TikTok", "url": "" },
+    { "platform": "Instagram", "url": "" },
+    { "platform": "YouTube", "url": "" },
+    { "platform": "Discord", "url": "" },
+    { "platform": "X", "url": "" },
+    { "platform": "Twitch", "url": "" },
+    { "platform": "Facebook", "url": "" }
   ]
 }

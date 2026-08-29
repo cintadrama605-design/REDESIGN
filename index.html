@@ -203,10 +203,9 @@
     </div>
   </section>
 
-  <!-- BESPOKE: fanned "hand of cards" social gallery — styled after the
-       Landon Norris reference (see conversation), no native Squarespace
-       equivalent. Fields → platform, image: see cms/socials.json.
-       Fallback: a plain Social Links Block in the native Footer. -->
+  <!-- SQSP: a plain link section — pill links with a color-sweep hover,
+       no card imagery. Fields → platform: see cms/socials.json.
+       Falls back trivially to a native Social Links Block. -->
   <section id="socials" class="section section-light">
     <div class="section-head" style="justify-content:center;text-align:center">
       <div>
@@ -214,17 +213,7 @@
         <h2>On Socials</h2>
       </div>
     </div>
-    <div class="fan-gallery" id="socials-fan"></div>
-    <p class="fan-follow">Follow Impound on social media</p>
-    <div class="fan-links">
-      <a href="#">TikTok</a>
-      <a href="#">Instagram</a>
-      <a href="#">YouTube</a>
-      <a href="#">Discord</a>
-      <a href="#">X</a>
-      <a href="#">Twitch</a>
-      <a href="#">Facebook</a>
-    </div>
+    <div class="social-links-row" id="socials-links"></div>
   </section>
 
   <!-- SQSP: Blog Collection (Summary Block v2, source = Blog).
@@ -311,7 +300,9 @@
   <div class="book-reader-scrim" data-book-close></div>
   <div class="book-reader-stage" id="book-stage" role="dialog" aria-modal="true" aria-label="Comic preview reader">
     <button class="book-reader-close" id="book-close" aria-label="Close preview" data-book-close>✕</button>
-    <div class="book-3d" id="book-3d"></div>
+    <div class="book-3d-tilt">
+      <div class="book-3d" id="book-3d"></div>
+    </div>
     <div class="book-reader-controls">
       <button class="book-nav-btn" id="book-prev" aria-label="Previous page">←</button>
       <span class="book-page-count" id="book-page-count">Cover</span>

@@ -1,11 +1,11 @@
 {
   "collection": "Squarespace Commerce Collection (Products, filtered to a Merch category)",
-  "fields": ["name", "image"],
-  "note": "Real: the site's Merch section shows black apparel (tee, long sleeve, cap, beanie) carrying the green Impound wordmark, as a plain image grid with one shared 'Shop Now' CTA — no per-item price was shown on screen, so this intentionally omits price rather than inventing one. If real pricing should show per item, add a `price` field and swap js/content-loader.js's merchTile() for shopCard()'s pattern. See documentation/Migration_Guide.md.",
+  "fields": ["name", "shape", "image"],
+  "note": "Real: the site's Merch section shows black apparel (tee, long sleeve, cap, beanie) carrying the green Impound wordmark — no per-item price was shown on screen, so this intentionally omits price rather than inventing one. Rendered here as individual CSS clip-path silhouettes with cursor tilt + idle float (css/interactions.css .merch-shape-*), not a plain image grid; `shape` picks which clip-path (tee/long-sleeve/cap/beanie). Falls back to a plain product image grid with zero code changes if the silhouette treatment isn't wanted. If real pricing should show per item, add a `price` field and swap js/content-loader.js's merchTile() for shopCard()'s pattern.",
   "items": [
-    { "name": "Impound Logo Tee", "image": "" },
-    { "name": "Impound Logo Long Sleeve", "image": "" },
-    { "name": "Impound Logo Cap", "image": "" },
-    { "name": "Impound Logo Beanie", "image": "" }
+    { "name": "Impound Logo Tee", "shape": "tee", "image": "" },
+    { "name": "Impound Logo Long Sleeve", "shape": "long-sleeve", "image": "" },
+    { "name": "Impound Logo Cap", "shape": "cap", "image": "" },
+    { "name": "Impound Logo Beanie", "shape": "beanie", "image": "" }
   ]
 }
