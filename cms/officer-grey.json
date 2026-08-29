@@ -1,0 +1,8 @@
+{
+  "collection": "Squarespace Product (single item) or static Section content",
+  "fields": ["title", "tagline", "date", "description", "cta"],
+  "note": "Real: 'Officer Grey' is a found-footage horror movie from the Impound Comics team, releasing October 25th — a separate sub-brand from the superhero comics, deliberately styled distinctly (red/black, not the site's green) on both the live site and here. No native Squarespace block for this promo layout; use a Fluid Engine Section with Custom CSS for the red treatment. See documentation/Migration_Guide.md.",
+  "items": [
+    { "title": "Officer Grey", "tagline": "Found Footage Horror", "date": "October 25th", "description": "A found-footage horror movie from the team behind Impound Comics. First-look images and the official trailer are live now.", "cta": "Click To Notify" }
+  ]
+}

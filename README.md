@@ -40,17 +40,20 @@ required, since there's no fetch/CORS dependency either.)
 
 ```
 index.html              Page markup — Hero, Featured Release, Comic Explorer,
-                         Universe, Media, Shop, News, Newsletter, Footer
+                         Universe, Media, Card Game, Shop, Officer Grey, Merch,
+                         Socials, News, Newsletter, Footer
 fonts/                   Self-hosted Anton + Inter (woff2, Latin subset) —
                          see css/fonts.css. Makes the preview work fully offline.
 css/fonts.css            @font-face declarations for the fonts above
 css/theme.css            Design tokens (color, type, spacing) + base styles
-css/components.css       Nav, hero, cards, grids, buttons, footer, newsletter
+css/components.css       Nav, hero, cards, grids, buttons, footer, newsletter,
+                         Card Game / Officer Grey / Merch section layouts,
+                         light-section variant
 css/interactions.css     Scroll-snap, side dot-nav, magnetic/tilt/cursor hover
-                         effects, 3D book shelf + reader overlay (bespoke — see
-                         documentation/Migration_Guide.md §5)
+                         effects, 3D book shelf + reader overlay, Socials fan
+                         gallery (all bespoke — see documentation/Migration_Guide.md §5)
 css/responsive.css       Breakpoints (mobile nav, grid collapse)
-js/content-loader.js     Demo content + render functions for each section's grid
+js/content-loader.js     Content data + render functions for every section
 js/book-reader.js        3D book shelf click-to-open reader (FLIP morph, page flips)
 js/app.js                Mobile nav toggle, scroll-reveal, dot-nav sync, magnetic
                          buttons, card tilt, cursor ring, newsletter stub, footer year
@@ -59,19 +62,44 @@ cms/*.json                Field schemas + sample records per collection, mapped
 documentation/            Design rationale + Squarespace block mapping + migration guide
 ```
 
-## Content is placeholder
+## Content: what's real vs. placeholder
 
-Copy, character bios, pricing, and art are placeholder — written to match the
-tone implied by the original brand names (Impound, Blasted, HydroBeast,
-Cautious) but not sourced from real canon or real product data. Visual art
-uses generated duotone panels (`.art` in components.css) instead of images,
-since no real assets were available at build time — every content item has
-an `image`/`alt` field (currently empty) that renders a real `<img>` the
-moment it's filled in, no code changes needed. See
+Rewritten from a screen recording of the actual impoundcomics.com homepage
+(Aug 2026) — the recording wasn't a live browse (this environment's network
+policy blocked the domain directly), so "real" below means "confirmed
+visible on screen in that recording," not pulled from a live API.
+
+**Real** — titles, character/creator names, and pricing, wherever they were
+visible on screen:
+- Comic titles: Impound, Blasted, Cautious, HydroBeast, Seraph, Ulao, Evoltir
+- Creator credits: Brent Trayce Sands (writer), Daniel Alexandre (line art),
+  Gabriel Macedo (colors), Denys Cowan (cover art, Impound #6), Valeria
+  Cryttal Zavalisco (HydroBeast co-writer)
+- Pricing: all dollar amounts in `cms/products.json` / the Shop section
+- Cautious's tagline: "A Soldier Aligned At The Flag"
+- Trading Card Game: "Impound Chaos", 52 cards/pack, 1st Edition TCG Series,
+  Random Card Flip (Champion → Ability → Power)
+- Officer Grey: a found-footage horror movie from the Impound team,
+  releasing October 25th — a distinct sub-brand from the comics
+- Merch line: tee, long sleeve, cap, beanie (no per-item price was shown)
+- Social platforms: TikTok, Instagram, YouTube, Discord, X, Twitch, Facebook
+- Crossover: "Impound Vs. Flame" (Impound Comics × The MelaninVerse)
+
+**Still placeholder** — written to match the confirmed tone, not sourced
+from real copy: series taglines other than Cautious's, all 5-page book
+previews, character bios, video runtimes and news publish dates, and every
+`image`/`alt` field (all empty — see the image seam below). Each
+`cms/*.json` file's `note` field says exactly which of its fields are real
+vs. placeholder.
+
+Visual art uses generated duotone panels (`.art` in components.css) instead
+of images, since no real assets were available at build time — every
+content item has an `image`/`alt` field (currently empty) that renders a
+real `<img>` the moment it's filled in, no code changes needed. See
 `documentation/Migration_Guide.md` §4 for how that seam works.
 
-**Before shipping:** swap in real cover art / photography, real character
-bios and credits, real pricing and product URLs, and real blog posts. The
+**Before shipping:** swap in real cover art / photography / video embeds,
+real character bios, real solicitation copy, and real news dates. The
 `cms/*.json` files document the field shape each section expects — update
 those alongside the actual Squarespace collections during migration.
 
@@ -93,6 +121,11 @@ those alongside the actual Squarespace collections during migration.
   preview pages plus a closing CTA. Keyboard accessible (arrow keys, Tab
   trap, Escape to close), and degrades to instant open/close under
   `prefers-reduced-motion`.
+- **Socials:** a fanned "hand of cards" gallery styled after the Landon
+  Norris reference, in a light cream section — the one deliberate light
+  break in an otherwise dark page.
+- **Officer Grey:** a red/black promo section for the found-footage horror
+  movie sub-brand, styled apart from the rest of the site on purpose.
 - **Accessibility:** skip link, visible focus states, `aria-live` newsletter
   status, `aria-expanded` mobile nav toggle, semantic landmarks, `inert`
   background while the book reader is open.

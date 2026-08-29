@@ -31,7 +31,7 @@
     overflow: hidden;
     transition: max-height 0.25s var(--ease);
   }
-  .nav-links.is-open{ max-height: 320px; }
+  .nav-links.is-open{ max-height: 380px; }
   .nav-links a{
     padding: 18px 6%;
     border-top: 1px solid var(--line-soft);
@@ -43,9 +43,12 @@
 
   .grid-4, .grid-3{ grid-template-columns: repeat(2, 1fr); }
 
-  .featured{
+  .featured, .cardgame{
     grid-template-columns: 1fr;
   }
+  .art.cardgame-box{ max-width: 260px; margin: 0 auto; order: -1; }
+
+  .merch-grid{ grid-template-columns: repeat(2, 1fr); }
 
   .section-head{
     flex-direction: column;

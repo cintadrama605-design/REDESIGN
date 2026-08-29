@@ -1,10 +1,10 @@
 {
   "collection": "Squarespace Blog",
   "fields": ["title", "image", "date", "content", "excerpt"],
-  "note": "Maps to the News section's Blog Collection grid. Replace items with live blog posts at migration time — see documentation/Squarespace_Block_Map.md.",
+  "note": "Maps to the News section's Blog Collection grid. Titles below are real, confirmed from the live site's News carousel — exact publish dates weren't visible on screen, so `date` is left blank rather than invented (the front-end shows a status tag like \"Now Streaming\" / \"News\" instead — see js/content-loader.js). Fill in real dates/content at migration time — see documentation/Squarespace_Block_Map.md.",
   "items": [
-    { "title": "Impound #1 Sells Out First Print Run", "image": "", "date": "2026-08-12", "excerpt": "The flagship issue is back on press after selling through in under three weeks.", "content": "" },
-    { "title": "HydroBeast Ongoing Series Announced", "image": "", "date": "2026-07-28", "excerpt": "The deep-sea horror one-shot is getting a full ongoing run starting this fall.", "content": "" },
-    { "title": "Meet The Art Team Behind Cautious", "image": "", "date": "2026-07-09", "excerpt": "A look at the noir palette and layout choices driving the series' tone.", "content": "" }
+    { "title": "Our King Documentary Is Live Now", "image": "", "date": "", "excerpt": "The Chadwick Boseman mini documentary from Impound Comics is live on YouTube.", "content": "" },
+    { "title": "First Look: Officer Grey Horror Movie", "image": "", "date": "", "excerpt": "First images from the found-footage horror movie, releasing October 25th.", "content": "" },
+    { "title": "Impound Issue #6 Exclusive Color Cover Now Available", "image": "", "date": "", "excerpt": "Denys Cowan's exclusive color cover for the flagship title's sixth issue is here.", "content": "" }
   ]
 }

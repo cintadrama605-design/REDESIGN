@@ -1,11 +1,20 @@
 {
   "collection": "Squarespace Commerce Product",
   "fields": ["title", "image", "price", "description", "category", "url"],
-  "note": "Maps to a Commerce Product Block (Featured Release) and a Commerce Collection grid (Shop). Replace items with live product data at migration time — see documentation/Squarespace_Block_Map.md.",
+  "note": "Maps to a Commerce Product Block (Featured Release) and a Commerce Collection grid (Shop). Titles and pricing below are real, confirmed from a recording of the live site's Top Sellers / New Releases / Pre-Order sections — descriptions are placeholder. Real product URLs follow the pattern impoundcomics.com/comic-books/p/{slug}. Replace url/image with live values at migration time — see documentation/Squarespace_Block_Map.md.",
   "items": [
-    { "title": "Impound #1", "image": "", "price": "$4.99", "description": "First print. First blood.", "category": "Comic", "url": "" },
-    { "title": "Blasted #1", "image": "", "price": "$4.99", "description": "Every fight ends in ash.", "category": "Comic", "url": "" },
-    { "title": "Universe Enamel Pin Set", "image": "", "price": "$18.00", "description": "Five-pin set featuring the core cast.", "category": "Collectible", "url": "" },
-    { "title": "Impound Yard Jacket", "image": "", "price": "$68.00", "description": "Heavyweight jacket with embroidered wordmark.", "category": "Merch", "url": "" }
+    { "title": "Impound Epic Bundle", "image": "", "price": "$120.00", "description": "8-comic bundle spanning the Impound Universe.", "category": "Bundle", "url": "" },
+    { "title": "Impound Digital Universe Bundle", "image": "", "price": "$40.00", "description": "Digital edition of the Impound Universe bundle.", "category": "Bundle", "url": "" },
+    { "title": "Impound Series Bundle", "image": "", "price": "$45.00", "description": "Two Impound covers, bundled.", "category": "Bundle", "url": "" },
+    { "title": "Impound Issue #6 Bundle", "image": "", "price": "$30.00", "description": "3 exclusive Denys Cowan covers.", "category": "Bundle", "url": "" },
+    { "title": "Impound Vs. Flame - Issue #1", "image": "", "price": "$50.00", "description": "Two universes. One collision. Impound Comics and The MelaninVerse unite in an epic indie crossover. 250+ pages.", "category": "Crossover", "url": "" },
+    { "title": "Impound - Issue #6 (Exclusive Color Cover)", "image": "", "price": "from $12.00", "description": "Cover by Denys Cowan, line art Daniel Alexandre, colors Gabriel Macedo.", "category": "Comic", "url": "" },
+    { "title": "Impound Novel Volume #1 (Variant Cover)", "image": "", "price": "from $40.00", "description": "Variant cover edition of the Impound Novel.", "category": "Comic", "url": "" },
+    { "title": "Cautious - Issue #1", "image": "", "price": "from $10.00", "description": "23 pages.", "category": "Comic", "url": "" },
+    { "title": "HydroBeast - Issue #1", "image": "", "price": "from $10.00", "description": "35 pages. By Brent Trayce Sands & Valeria Cryttal Zavalisco.", "category": "Comic", "url": "" },
+    { "title": "Blasted - Issues 1 & 2 (Physical)", "image": "", "price": "from $20.00", "description": "Backordered until Sep 15th.", "category": "Comic", "url": "" },
+    { "title": "Blasted - Issue 3 (Physical) - Pre-Order", "image": "", "price": "from $10.00", "description": "Pre-order, ships after Sept 20th.", "category": "Comic", "url": "" },
+    { "title": "Blasted - Issue 3 (Physical Both Covers) - Pre-Order", "image": "", "price": "from $18.00", "description": "Both covers bundled. Pre-order, ships after Sept 20th.", "category": "Comic", "url": "" },
+    { "title": "Blasted - Issue 3 (Physical Variant) - Pre-Order", "image": "", "price": "from $10.00", "description": "Variant cover. Pre-order, ships after Sept 20th.", "category": "Comic", "url": "" }
   ]
 }

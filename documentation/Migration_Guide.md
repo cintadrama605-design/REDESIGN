@@ -34,8 +34,13 @@ belong in Squarespace:
    Fonts picker instead (§1 below) — don't upload these files or paste the
    `@font-face` rules into Custom CSS.
 
-Everything else — the six content sections between header and footer — is
+Everything else — the content sections between header and footer — is
 what actually needs migrating, section by section, below.
+
+**Content sourcing**: titles, character names, pricing, and creator
+credits throughout were rewritten from a screen recording of the real
+impoundcomics.com homepage (Aug 2026) — see README.md for exactly what's
+confirmed-real vs. still-placeholder per section.
 
 ---
 
@@ -80,10 +85,14 @@ and the comments as the in-context reminder while you're actually building.
 |---|---|---|---|
 | Hero | Fluid Engine Section: Image + Text + Button blocks | — | static copy |
 | Featured Release | Commerce Product Block | Products | `cms/products.json` |
-| Comic Explorer | Summary Block (v2) | Blog *or* Portfolio (see note below) | `cms/products.json` / dedicated collection |
+| Comic Explorer | Summary Block (v2) | Blog *or* Portfolio (see note below) | `cms/comics.json` |
 | Universe | Summary Block (v2) | Portfolio | `cms/characters.json` |
 | Media | Summary Block (v2) or native Video Collection | Video | `cms/media.json` |
+| Trading Card Game | Fluid Engine Section, or Commerce Product Block | — / Products | `cms/cardgame.json` |
 | Shop | Summary Block (v2) | Products | `cms/products.json` |
+| Officer Grey (promo) | Fluid Engine Section + Custom CSS | — | `cms/officer-grey.json` |
+| Merch | Summary Block (v2) | Products (Merch category) | `cms/merch.json` |
+| Socials (fan gallery) | BESPOKE — Code Injection, see §5 | — | `cms/socials.json` |
 | News | Summary Block (v2) | Blog | `cms/news.json` |
 | Newsletter | Newsletter Block (native Email Campaigns signup) | — | — |
 
@@ -126,11 +135,23 @@ the preview is what you're populating:
   interaction that reads `preview_gallery`.
 - `cms/characters.json` → Portfolio collection (`name`, `role`, `bio`, `image`).
 - `cms/media.json` → Video collection (`title`, `type`, `duration`, `video_url`, `thumbnail`).
+- `cms/cardgame.json` → single Product or static Section content (`title`,
+  `subtitle`, `description`, `meta`, `image`).
+- `cms/officer-grey.json` → single Product or static Section content
+  (`title`, `tagline`, `date`, `description`, `cta`).
+- `cms/merch.json` → Products collection, Merch category (`name`, `image` —
+  no price field; the real site shows a plain image grid with one shared CTA).
+- `cms/socials.json` → static Section content, not a real Collection
+  (`platform`, `image`, `url`) — powers the fan gallery, see §5.
 - `cms/news.json` → Blog collection (`title`, `date`, `excerpt`, `content`, `image`).
 
-All placeholder text in these files and in `content-loader.js` is
-**invented tone-matching copy, not real brand content** — see README.md.
-Replace it with real copy as part of populating the Collections, not before.
+**What's real vs. placeholder**: titles, character/creator names, and
+pricing throughout are confirmed real (sourced from a recording of the
+live site) — descriptions, taglines beyond Cautious's, character bios,
+video runtimes, and news dates are placeholder pending real copy. Each
+`cms/*.json` file's `note` field says exactly which applies. Replace
+placeholder text with real copy as part of populating the Collections —
+see README.md for the full breakdown.
 
 ---
 
@@ -207,10 +228,10 @@ without custom code.
 
 ### 5d. The 3D book shelf + click-to-open reader (`css/interactions.css`, `js/book-reader.js`)
 
-This is the one feature with **no native Squarespace equivalent at all** —
-a 3D book shelf (`.shelf`/`.book`) that FLIP-morphs into a full-screen
-reader on click, auto-opens its cover, and flips through 5 preview pages
-plus a closing CTA. To keep it in Squarespace:
+This and the fan gallery in §5e are the two features with **no native
+Squarespace equivalent at all**. The book shelf (`.shelf`/`.book`)
+FLIP-morphs into a full-screen reader on click, auto-opens its cover, and
+flips through 5 preview pages plus a closing CTA. To keep it in Squarespace:
 
 1. Add `css/interactions.css`'s shelf/book/`.book-reader` rules and
    `js/book-reader.js` verbatim via Code Injection (Settings → Advanced →
@@ -233,14 +254,31 @@ top of that, not a structural requirement. `data-comic-index` and the
 `.book`/`.card` markup difference is the only thing that would need
 reverting in that case.
 
+### 5e. The Socials fan gallery (`css/interactions.css`, `js/content-loader.js`'s `fanCard()`)
+
+The fanned "hand of cards" gallery — styled after the Landon Norris
+reference discussed during this build — has no native Squarespace block
+either. It's much simpler than the book reader (no click/open behavior,
+just an arced CSS layout): copy the `.fan-*` rules from
+`css/interactions.css` and the `fanCard()`/`renderSocials()` functions
+from `js/content-loader.js` into a Code Block on whichever page needs it,
+swapping `cms/socials.json`'s `image` field in for the generated
+placeholder art.
+
+**Fallback**: drop it for a native Social Links Block in the Footer
+(exactly what the real site's own social icons already map to) — the
+fan gallery is a stylistic flourish, not something the site depends on
+structurally.
+
 ---
 
 ## 6. Suggested order of operations
 
 1. Set Site Styles (colors, fonts, buttons) — section 1 above.
 2. Build the global Header and Footer — section 0 above.
-3. Create the four Collections (Products, Portfolio, Video, Blog) and their
-   fields — section 3 above.
+3. Create the Collections you need (Products, Portfolio, Video, Blog —
+   Card Game/Officer Grey/Socials are single items or static Section
+   content, not full Collections) and their fields — section 3 above.
 4. Populate each Collection with real content (start from `cms/*.json` +
    `content-loader.js`'s placeholder copy as a structural guide, replace
    with real copy as you go).

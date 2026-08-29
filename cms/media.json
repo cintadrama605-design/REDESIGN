@@ -1,10 +1,13 @@
 {
   "collection": "Squarespace Video Collection",
   "fields": ["title", "video_url", "thumbnail", "type", "duration"],
-  "note": "Maps to the Media section's Video Collection grid. Replace items with live video embeds at migration time — see documentation/Squarespace_Block_Map.md.",
+  "note": "Maps to the Media section's Video Collection grid. Titles below are real, confirmed from the live site's Media/Trending Videos sections — exact runtimes and video IDs weren't visible on screen, so `duration` is left as a placeholder label rather than an invented time. Fill in real video_url (YouTube embed) + duration at migration time — see documentation/Squarespace_Block_Map.md.",
   "items": [
-    { "title": "Impound #1 — Teaser Trailer", "video_url": "", "thumbnail": "", "type": "Trailer", "duration": "1:32" },
-    { "title": "The Impound Yard", "video_url": "", "thumbnail": "", "type": "Animated Short", "duration": "4:10" },
-    { "title": "Behind The Ink", "video_url": "", "thumbnail": "", "type": "Behind The Scenes", "duration": "6:47" }
+    { "title": "Impound & Hope Breaker — Action Animation", "video_url": "", "thumbnail": "", "type": "Animation", "duration": "" },
+    { "title": "Impound — Short Stop Motion Animation", "video_url": "", "thumbnail": "", "type": "Stop Motion", "duration": "" },
+    { "title": "Blasted Series — Episode 1 (Paper Animation)", "video_url": "", "thumbnail": "", "type": "Paper Animation", "duration": "" },
+    { "title": "Blasted Series — Episode 2 (Paper Animation)", "video_url": "", "thumbnail": "", "type": "Paper Animation", "duration": "" },
+    { "title": "Our King — Chadwick Boseman Mini Documentary", "video_url": "", "thumbnail": "", "type": "Documentary", "duration": "" },
+    { "title": "Officer Grey — Official Trailer", "video_url": "", "thumbnail": "", "type": "Trailer", "duration": "" }
   ]
 }

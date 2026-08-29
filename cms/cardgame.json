@@ -1,0 +1,8 @@
+{
+  "collection": "Squarespace Product (single item) or static Section content",
+  "fields": ["title", "subtitle", "description", "meta", "image"],
+  "note": "Real: the site sells an 'Impound Chaos' trading card game — 52 cards per pack, 1 pack per box, 1st Edition TCG Series, Random Card Flip pulling a Champion card, then an Ability card, then a Power card. No native Squarespace block for this exact layout; use a Fluid Engine Section (Image + Text + Button) or a Commerce Product Block if it's sold through Products. See documentation/Migration_Guide.md.",
+  "items": [
+    { "title": "Impound Chaos", "subtitle": "Trading Card Game", "description": "52 cards per pack, 1 pack per box. Every pack is a random card flip: pull your Champion card first, then an Ability card, then a Power card, and build your run through the Impound Universe.", "meta": "1st Edition TCG Series", "image": "" }
+  ]
+}

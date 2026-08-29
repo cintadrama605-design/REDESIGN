@@ -1,0 +1,11 @@
+{
+  "collection": "Squarespace Commerce Collection (Products, filtered to a Merch category)",
+  "fields": ["name", "image"],
+  "note": "Real: the site's Merch section shows black apparel (tee, long sleeve, cap, beanie) carrying the green Impound wordmark, as a plain image grid with one shared 'Shop Now' CTA — no per-item price was shown on screen, so this intentionally omits price rather than inventing one. If real pricing should show per item, add a `price` field and swap js/content-loader.js's merchTile() for shopCard()'s pattern. See documentation/Migration_Guide.md.",
+  "items": [
+    { "name": "Impound Logo Tee", "image": "" },
+    { "name": "Impound Logo Long Sleeve", "image": "" },
+    { "name": "Impound Logo Cap", "image": "" },
+    { "name": "Impound Logo Beanie", "image": "" }
+  ]
+}

@@ -1,11 +1,14 @@
 {
   "collection": "Squarespace Portfolio Collection (or Blog, for per-title pages)",
   "fields": ["title", "genre", "issues", "tagline", "price", "image", "preview_gallery"],
-  "note": "Powers the Comic Explorer 3D shelf + click-to-open book reader (js/book-reader.js). `image` is the front cover; `preview_gallery` is an ordered set of interior page images (currently 5 per title) shown as the flip-through preview — map it to that Collection item's Gallery/multi-image field. This bespoke interaction has no native Squarespace block; see documentation/Migration_Guide.md §5 for the Code Injection approach or the plain-grid fallback.",
+  "note": "Powers the Comic Explorer 3D shelf + click-to-open book reader (js/book-reader.js). `image` is the front cover; `preview_gallery` is an ordered set of interior page images (currently 5 per title) shown as the flip-through preview — map it to that Collection item's Gallery/multi-image field. This bespoke interaction has no native Squarespace block; see documentation/Migration_Guide.md §5 for the Code Injection approach or the plain-grid fallback. Titles, creator credits, and Cautious's tagline are real (confirmed from a recording of the live site); other taglines/synopses are illustrative pending real solicitation copy — see README.md.",
   "items": [
-    { "title": "Impound", "genre": "Street-Level / Vehicular", "issues": "6 Issues", "tagline": "They tow what the law won't touch.", "price": "$4.99", "image": "", "preview_gallery": ["", "", "", "", ""] },
-    { "title": "Blasted", "genre": "Pyro-Kinetic Action", "issues": "4 Issues", "tagline": "Every fight ends in ash.", "price": "$4.99", "image": "", "preview_gallery": ["", "", "", "", ""] },
-    { "title": "HydroBeast", "genre": "Body-Horror / Deep Sea", "issues": "3 Issues", "tagline": "The tide always comes back.", "price": "$4.99", "image": "", "preview_gallery": ["", "", "", "", ""] },
-    { "title": "Cautious", "genre": "Psychological / Noir", "issues": "5 Issues", "tagline": "The most dangerous man in the room hasn't moved yet.", "price": "$4.99", "image": "", "preview_gallery": ["", "", "", "", ""] }
+    { "title": "Impound", "genre": "Sci-Fi / Action", "issues": "6+ Issues", "tagline": "They tow what the law won't touch.", "price": "from $12.00", "image": "", "preview_gallery": ["", "", "", "", ""] },
+    { "title": "Blasted", "genre": "Action / Revenge", "issues": "3 Issues", "tagline": "Every fight ends in ash.", "price": "from $10.00", "image": "", "preview_gallery": ["", "", "", "", ""] },
+    { "title": "Cautious", "genre": "Military / Drama", "issues": "1+ Issues", "tagline": "A Soldier Aligned At The Flag.", "price": "from $10.00", "image": "", "preview_gallery": ["", "", "", "", ""] },
+    { "title": "HydroBeast", "genre": "Sci-Fi / Body-Horror", "issues": "1+ Issues", "tagline": "The tide always comes back.", "price": "from $10.00", "image": "", "preview_gallery": ["", "", "", "", ""] },
+    { "title": "Seraph", "genre": "Action", "issues": "1+ Issues (Trilogy)", "tagline": "Judgment doesn't ask twice.", "price": "from $10.00", "image": "", "preview_gallery": ["", "", "", "", ""] },
+    { "title": "Ulao", "genre": "Action", "issues": "1+ Issues", "tagline": "Every mission ends the same way it started: alone.", "price": "from $10.00", "image": "", "preview_gallery": ["", "", "", "", ""] },
+    { "title": "Evoltir", "genre": "Sci-Fi", "issues": "1+ Issues", "tagline": "The destroyer and the alter-ego share one body.", "price": "from $10.00", "image": "", "preview_gallery": ["", "", "", "", ""] }
   ]
 }

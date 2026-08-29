@@ -438,6 +438,7 @@
 
 .social-links{
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin-top: 22px;
 }
@@ -461,4 +462,127 @@
   padding-top: 24px;
   color: var(--gray-dim);
   font-size: 0.82rem;
+}
+
+/* ---------- Light section variant (Merch, Socials) ---------- */
+.section-light{
+  background: var(--white);
+  color: var(--black);
+}
+.section-light h2, .section-light h3{ color: var(--black); }
+.section-light .section-note{ color: var(--gray-dim); }
+.section-light p{ color: var(--gray-dim); }
+
+/* ---------- Card Game section ---------- */
+.cardgame{
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  gap: 48px;
+  align-items: center;
+}
+.cardgame-copy{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+.cardgame-subtitle{
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.cardgame-copy h3{
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+.cardgame-desc{
+  color: var(--gray);
+  max-width: 46ch;
+}
+.cardgame-actions{ margin-top: 8px; }
+.art.cardgame-box{
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  max-width: 340px;
+  margin-left: auto;
+}
+
+/* ---------- Officer Grey promo section (distinct sub-brand) ---------- */
+.og-section{
+  position: relative;
+  padding: var(--section-pad-y) var(--section-pad-x);
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  border-top: 1px solid #2a0808;
+  border-bottom: 1px solid #2a0808;
+}
+.og-bg{
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(200,20,20,0.18), transparent 55%),
+    repeating-linear-gradient(115deg, rgba(200,20,20,0.05) 0 2px, transparent 2px 26px),
+    var(--black);
+}
+#officer-grey-content{ position: relative; z-index: 1; max-width: 640px; }
+.og-eyebrow{
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #e34040;
+  margin-bottom: 10px;
+}
+.og-title{
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: var(--white);
+  line-height: 0.95;
+}
+.og-date{
+  margin-top: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--white);
+}
+.og-desc{
+  margin-top: 14px;
+  color: var(--gray);
+  max-width: 48ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+.og-btn{
+  margin-top: 26px;
+  background: #c81414;
+  color: var(--white);
+}
+.og-btn:hover{ background: #e34040; }
+
+/* ---------- Merch section ---------- */
+.merch-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.merch-tile{
+  text-align: center;
+}
+.merch-tile p{
+  margin-top: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.merch-cta{
+  text-align: center;
+  margin-top: 40px;
 }

@@ -1,11 +1,11 @@
 {
   "collection": "Squarespace Portfolio Collection",
   "fields": ["name", "image", "role", "bio"],
-  "note": "Maps to the Universe section's Portfolio Collection grid. Replace items with live character data at migration time — see documentation/Squarespace_Block_Map.md.",
+  "note": "Maps to the Universe section's Portfolio Collection grid. Names and visual identity below are real (confirmed from cover art on the live site); bios are illustrative placeholder pending the real 'Our Universe' page content, which wasn't captured — see README.md. Replace with live character data at migration time — see documentation/Squarespace_Block_Map.md.",
   "items": [
-    { "name": "Impound", "image": "", "role": "The Reclaimer", "bio": "Shows up after everyone else has given up on a block. Doesn't ask who owned it first." },
-    { "name": "Blasted", "image": "", "role": "The Detonator", "bio": "Marcus Reyes turned a demolition accident into the only language he has left." },
-    { "name": "HydroBeast", "image": "", "role": "The Depth Walker", "bio": "Nobody's found where it comes from. Everybody's found where it leaves people." },
-    { "name": "Cautious", "image": "", "role": "The Tactician", "bio": "Elena Cho plans four moves past everyone else's last one." }
+    { "name": "Impound", "image": "", "role": "Dual Identity — Tech Hero", "bio": "Armored and augmented, Impound shows up after everyone else has given up on a block — a human protagonist and a green-visored, tech-armored alter ego, one universe." },
+    { "name": "Blasted", "image": "", "role": "The Masked Detonator", "bio": "Chained, masked, and running hot — Blasted turned whatever happened to him into the only language he has left: fire, blades, and a very short fuse." },
+    { "name": "Cautious", "image": "", "role": "A Soldier Aligned At The Flag", "bio": "A soldier who came home to a country that doesn't recognize him anymore — every order taken on his own terms now." },
+    { "name": "HydroBeast", "image": "", "role": "The Depth Walker", "bio": "A harbor accident left more ice than skin behind — nobody's found where it comes from, everybody's found where it leaves people." }
   ]
 }

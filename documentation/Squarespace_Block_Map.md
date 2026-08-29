@@ -19,8 +19,24 @@ Summary Block (v2) — source: Portfolio collection
 Media:
 Summary Block (v2) or native Video Collection block
 
+Trading Card Game:
+No native block — Fluid Engine Section (Image + Text + Button), or a
+Commerce Product Block if sold as a Product (see Migration_Guide.md §2)
+
 Shop:
 Summary Block (v2) — source: Products collection
+
+Officer Grey (promo):
+No native block — Fluid Engine Section with Custom CSS for the distinct
+red/black treatment (separate sub-brand, styled apart on purpose)
+
+Merch:
+Summary Block (v2) — source: Products collection, filtered to a Merch
+category; plain image grid, no per-item price shown (matches the real site)
+
+Socials (fan gallery):
+BESPOKE — no native block, Code Injection required (see Migration_Guide.md §5);
+fallback is a plain Social Links Block in the native Footer
 
 News:
 Summary Block (v2) — source: Blog collection

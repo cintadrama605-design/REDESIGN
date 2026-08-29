@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Impound Comics — Enter The Universe</title>
-<meta name="description" content="IMPOUND COMICS: stories built in the wreckage. Read the series, meet the universe, shop comics and merch.">
+<meta name="description" content="IMPOUND COMICS: comics, animation, and film from the Impound Universe. Read the series, shop comics, merch, and the Impound Chaos trading card game.">
 <link rel="stylesheet" href="css/fonts.css">
 <link rel="stylesheet" href="css/theme.css">
 <link rel="stylesheet" href="css/components.css">
@@ -23,6 +23,7 @@
   <a href="#comics" data-label="Comic Explorer"><span></span></a>
   <a href="#universe" data-label="Universe"><span></span></a>
   <a href="#media" data-label="Media"><span></span></a>
+  <a href="#cardgame" data-label="Card Game"><span></span></a>
   <a href="#shop" data-label="Shop"><span></span></a>
   <a href="#news" data-label="News"><span></span></a>
 </nav>
@@ -35,6 +36,7 @@
       <a href="#comics">Comics</a>
       <a href="#universe">Universe</a>
       <a href="#media">Media</a>
+      <a href="#cardgame">Card Game</a>
       <a href="#shop">Shop</a>
       <a href="#news">News</a>
     </nav>
@@ -61,12 +63,12 @@
   <section class="hero" id="hero">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-content">
-      <p class="eyebrow">Enter The Universe</p>
+      <p class="eyebrow">Impound Anime</p>
       <h1>IMPOUND<br>COMICS</h1>
-      <p class="hero-sub">Stories built in the wreckage. Heroes forged from what everyone else left behind.</p>
+      <p class="hero-sub">Comics, animation, and film from Brent Trayce Sands' Impound Universe. Armored, augmented, and closing in.</p>
       <div class="hero-actions">
-        <a href="#comics" class="btn btn-primary magnetic">Explore Comics</a>
-        <a href="#media" class="btn btn-ghost magnetic">Watch Trailer</a>
+        <a href="#media" class="btn btn-primary magnetic">Watch More</a>
+        <a href="#shop" class="btn btn-ghost magnetic">Shop</a>
       </div>
     </div>
     <a href="#featured" class="scroll-cue" aria-label="Scroll to content"><span></span></a>
@@ -101,7 +103,7 @@
         <p class="section-eyebrow">Comic Explorer</p>
         <h2>Read The Series</h2>
       </div>
-      <p class="section-note">Four ongoing titles. One collapsing city. Click a cover to preview.</p>
+      <p class="section-note">Seven titles deep in the Impound Universe. Click a cover to preview.</p>
     </div>
     <div class="shelf" id="comics-grid"></div>
   </section>
@@ -134,19 +136,87 @@
     <div class="grid grid-3" id="media-grid"></div>
   </section>
 
+  <!-- SQSP: no direct block equivalent — this is a single Product (the
+       trading card game) presented as its own promo section. Use a
+       Fluid Engine Section with an Image block (box art) + Text/Button,
+       or a Commerce Product Block if the TCG is sold as a Product.
+       Fields → title, subtitle, description, meta, image: see
+       cms/cardgame.json. -->
+  <section id="cardgame" class="section section-alt">
+    <div class="section-head">
+      <div>
+        <p class="section-eyebrow">Play</p>
+        <h2>Trading Card Game</h2>
+      </div>
+    </div>
+    <div id="cardgame-content"></div>
+  </section>
+
   <!-- SQSP: Commerce Collection (Summary Block v2, source = Products).
        Fields → title, category, price, product image: see
        cms/products.json. "Add To Cart" becomes the block's native
        Quick Add / Add to Cart action. -->
-  <section id="shop" class="section section-alt">
+  <section id="shop" class="section">
     <div class="section-head">
       <div>
         <p class="section-eyebrow">Shop</p>
-        <h2>Comics &amp; Merch</h2>
+        <h2>Comics &amp; Bundles</h2>
       </div>
       <a href="#shop" class="text-link">View all →</a>
     </div>
     <div class="grid grid-4" id="shop-grid"></div>
+  </section>
+
+  <!-- SQSP: no direct block equivalent — a single promo Section for a
+       separate sub-brand (a found-footage horror movie, not a comic).
+       Use a Fluid Engine Section with a dark/red Custom CSS treatment,
+       distinct from the rest of the site's palette on purpose. Fields →
+       title, tagline, date, description, cta: see cms/officer-grey.json. -->
+  <section id="officer-grey" class="og-section">
+    <div class="og-bg" aria-hidden="true"></div>
+    <div id="officer-grey-content"></div>
+  </section>
+
+  <!-- SQSP: Commerce Collection (Summary Block v2, source = Products,
+       filtered to a "Merch" category) — plain image grid, no per-item
+       price shown, matching the real site. Fields → name, image: see
+       cms/merch.json. Light section, per the reference style note in
+       documentation/Migration_Guide.md. -->
+  <section id="merch" class="section section-light">
+    <div class="section-head">
+      <div>
+        <p class="section-eyebrow">Shop</p>
+        <h2>Merch</h2>
+      </div>
+    </div>
+    <div class="merch-grid" id="merch-grid"></div>
+    <div class="merch-cta">
+      <a href="#shop" class="btn btn-primary magnetic">Shop Now</a>
+    </div>
+  </section>
+
+  <!-- BESPOKE: fanned "hand of cards" social gallery — styled after the
+       Landon Norris reference (see conversation), no native Squarespace
+       equivalent. Fields → platform, image: see cms/socials.json.
+       Fallback: a plain Social Links Block in the native Footer. -->
+  <section id="socials" class="section section-light">
+    <div class="section-head" style="justify-content:center;text-align:center">
+      <div>
+        <p class="section-eyebrow">What's Up</p>
+        <h2>On Socials</h2>
+      </div>
+    </div>
+    <div class="fan-gallery" id="socials-fan"></div>
+    <p class="fan-follow">Follow Impound on social media</p>
+    <div class="fan-links">
+      <a href="#">TikTok</a>
+      <a href="#">Instagram</a>
+      <a href="#">YouTube</a>
+      <a href="#">Discord</a>
+      <a href="#">X</a>
+      <a href="#">Twitch</a>
+      <a href="#">Facebook</a>
+    </div>
   </section>
 
   <!-- SQSP: Blog Collection (Summary Block v2, source = Blog).
@@ -190,10 +260,13 @@
       <a href="#top" class="logo">IMPOUND<span>COMICS</span></a>
       <p>Stories built in the wreckage.</p>
       <div class="social-links" aria-label="Social media">
-        <a href="#" aria-label="Instagram">IG</a>
-        <a href="#" aria-label="X / Twitter">X</a>
         <a href="#" aria-label="TikTok">TT</a>
+        <a href="#" aria-label="Instagram">IG</a>
         <a href="#" aria-label="YouTube">YT</a>
+        <a href="#" aria-label="Discord">DC</a>
+        <a href="#" aria-label="X / Twitter">X</a>
+        <a href="#" aria-label="Twitch">TW</a>
+        <a href="#" aria-label="Facebook">FB</a>
       </div>
     </div>
     <div class="footer-col">
@@ -201,14 +274,15 @@
       <a href="#comics">Comics</a>
       <a href="#universe">Universe</a>
       <a href="#media">Media</a>
+      <a href="#cardgame">Card Game</a>
       <a href="#news">News</a>
     </div>
     <div class="footer-col">
       <h3>Shop</h3>
       <a href="#shop">All Products</a>
       <a href="#shop">Comics</a>
-      <a href="#shop">Merch</a>
-      <a href="#shop">Collectibles</a>
+      <a href="#merch">Merch</a>
+      <a href="#shop">Bundles</a>
     </div>
     <div class="footer-col">
       <h3>Info</h3>
