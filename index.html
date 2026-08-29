@@ -10,11 +10,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
 <link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/interactions.css">
 <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
 
 <a class="skip-link" href="#main">Skip to content</a>
+
+<div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
+
+<nav class="dot-nav" id="dot-nav" aria-label="Section navigation">
+  <a href="#hero" data-label="Home"><span></span></a>
+  <a href="#featured" data-label="Featured Release"><span></span></a>
+  <a href="#comics" data-label="Comic Explorer"><span></span></a>
+  <a href="#universe" data-label="Universe"><span></span></a>
+  <a href="#media" data-label="Media"><span></span></a>
+  <a href="#shop" data-label="Shop"><span></span></a>
+  <a href="#news" data-label="News"><span></span></a>
+</nav>
 
 <header class="nav" id="top">
   <div class="nav-inner">
@@ -28,7 +41,7 @@
       <a href="#news">News</a>
     </nav>
 
-    <a href="#shop" class="btn btn-primary nav-cta">Shop Now</a>
+    <a href="#shop" class="btn btn-primary nav-cta magnetic">Shop Now</a>
 
     <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
       <span></span><span></span><span></span>
@@ -47,15 +60,15 @@
        hero-bg's gradient/dot texture has no native equivalent — keep it
        via Custom CSS (Design > Custom CSS) targeting this section, or
        drop it for a real background image/video in the Image block. -->
-  <section class="hero">
+  <section class="hero" id="hero">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-content">
       <p class="eyebrow">Enter The Universe</p>
       <h1>IMPOUND<br>COMICS</h1>
       <p class="hero-sub">Stories built in the wreckage. Heroes forged from what everyone else left behind.</p>
       <div class="hero-actions">
-        <a href="#comics" class="btn btn-primary">Explore Comics</a>
-        <a href="#media" class="btn btn-ghost">Watch Trailer</a>
+        <a href="#comics" class="btn btn-primary magnetic">Explore Comics</a>
+        <a href="#media" class="btn btn-ghost magnetic">Watch Trailer</a>
       </div>
     </div>
     <a href="#featured" class="scroll-cue" aria-label="Scroll to content"><span></span></a>
@@ -79,16 +92,20 @@
        Portfolio type — pick whichever gives per-title pages you want).
        Fields → title, genre, issue count, tagline, cover image: see
        cms/products.json / a dedicated comics collection. Grid layout =
-       Summary Block's Grid design, 4 cols desktop / 1 col mobile. -->
+       Summary Block's Grid design, 4 cols desktop / 1 col mobile.
+       BESPOKE: the 3D shelf + click-to-open book reader below (js/book-reader.js)
+       has no native Squarespace equivalent — see documentation/Migration_Guide.md
+       §5 for the Code Injection version, or fall back to the plain
+       Summary Block grid for a no-code migration. -->
   <section id="comics" class="section">
     <div class="section-head">
       <div>
         <p class="section-eyebrow">Comic Explorer</p>
         <h2>Read The Series</h2>
       </div>
-      <p class="section-note">Four ongoing titles. One collapsing city.</p>
+      <p class="section-note">Four ongoing titles. One collapsing city. Click a cover to preview.</p>
     </div>
-    <div class="grid grid-4" id="comics-grid"></div>
+    <div class="shelf" id="comics-grid"></div>
   </section>
 
   <!-- SQSP: Summary Block (v2), source = Portfolio Collection.
@@ -157,7 +174,7 @@
       <form class="newsletter-form" id="newsletter-form">
         <label class="sr-only" for="newsletter-email">Email address</label>
         <input type="email" id="newsletter-email" placeholder="you@email.com" required>
-        <button type="submit" class="btn btn-primary">Sign Up</button>
+        <button type="submit" class="btn btn-primary magnetic">Sign Up</button>
       </form>
       <p class="newsletter-status" id="newsletter-status" role="status" aria-live="polite"></p>
     </div>
@@ -208,7 +225,23 @@
   </div>
 </footer>
 
+<!-- BESPOKE: 3D book reader overlay, injected/controlled by js/book-reader.js.
+     Content per book is built at open-time from CONTENT.comics[].pages. -->
+<div class="book-reader" id="book-reader" hidden>
+  <div class="book-reader-scrim" data-book-close></div>
+  <div class="book-reader-stage" id="book-stage" role="dialog" aria-modal="true" aria-label="Comic preview reader">
+    <button class="book-reader-close" id="book-close" aria-label="Close preview" data-book-close>✕</button>
+    <div class="book-3d" id="book-3d"></div>
+    <div class="book-reader-controls">
+      <button class="book-nav-btn" id="book-prev" aria-label="Previous page">←</button>
+      <span class="book-page-count" id="book-page-count">Cover</span>
+      <button class="book-nav-btn" id="book-next" aria-label="Next page">→</button>
+    </div>
+  </div>
+</div>
+
 <script src="js/content-loader.js"></script>
+<script src="js/book-reader.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

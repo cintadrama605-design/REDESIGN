@@ -14,6 +14,12 @@
  */
 (function(){
 
+  function seriesPages(captions, a, b){
+    return captions.map(function(cap, i){
+      return { glyph: String(i + 1), caption: cap, artA: a, artB: b };
+    });
+  }
+
   var CONTENT = {
 
     featured: {
@@ -34,32 +40,64 @@
         genre: "Street-Level / Vehicular",
         issues: "6 Issues",
         tagline: "They tow what the law won't touch.",
+        price: "$4.99",
         glyph: "I", image: "", alt: "Impound series cover art",
-        artA: "#242a12", artB: "#050505"
+        artA: "#242a12", artB: "#050505",
+        pages: seriesPages([
+          "The last legal tow yard in the district takes a job nobody else will.",
+          "A stripped sedan turns out to still have someone in the trunk.",
+          "The city council votes to auction the yard out from under them.",
+          "Impound finds out who's actually been paying for the auction.",
+          "First confrontation, on a truck doing sixty with no brakes."
+        ], "#242a12", "#050505")
       },
       {
         title: "Blasted",
         genre: "Pyro-Kinetic Action",
         issues: "4 Issues",
         tagline: "Every fight ends in ash.",
+        price: "$4.99",
         glyph: "B", image: "", alt: "Blasted series cover art",
-        artA: "#2a1712", artB: "#050505"
+        artA: "#2a1712", artB: "#050505",
+        pages: seriesPages([
+          "Marcus Reyes wakes up in a crater that used to be his job site.",
+          "The demolition company wants their 'asset' back.",
+          "A city block learns what happens when he loses his temper.",
+          "An old crew member shows up with a very specific kind of insurance.",
+          "The countdown starts on something bigger than either of them."
+        ], "#2a1712", "#050505")
       },
       {
         title: "HydroBeast",
         genre: "Body-Horror / Deep Sea",
         issues: "3 Issues",
         tagline: "The tide always comes back.",
+        price: "$4.99",
         glyph: "H", image: "", alt: "HydroBeast series cover art",
-        artA: "#0f2224", artB: "#050505"
+        artA: "#0f2224", artB: "#050505",
+        pages: seriesPages([
+          "A harbor dredging crew pulls up something that shouldn't fit in the net.",
+          "The tide charts stop making sense along a six-block stretch of coast.",
+          "Someone from the crew starts remembering things that haven't happened yet.",
+          "The thing in the harbor starts leaving the harbor.",
+          "Low tide reveals exactly how long it's been down there."
+        ], "#0f2224", "#050505")
       },
       {
         title: "Cautious",
         genre: "Psychological / Noir",
         issues: "5 Issues",
         tagline: "The most dangerous man in the room hasn't moved yet.",
+        price: "$4.99",
         glyph: "C", image: "", alt: "Cautious series cover art",
-        artA: "#1c1c22", artB: "#050505"
+        artA: "#1c1c22", artB: "#050505",
+        pages: seriesPages([
+          "Elena Cho takes a case that was never actually offered to her.",
+          "Every witness gives a different version of the same ten minutes.",
+          "She maps the room before she maps the motive.",
+          "The one person who isn't lying turns out to be the problem.",
+          "The last move was decided before the first page."
+        ], "#1c1c22", "#050505")
       }
     ],
 
@@ -220,18 +258,30 @@
     el.innerHTML = items.map(function(item){ return builder(item); }).join('');
   }
 
-  function comicCard(c){
+  /**
+   * Renders the Comic Explorer as a 3D shelf of clickable book covers
+   * instead of flat cards — js/book-reader.js reads data-comic-index
+   * off each .book button to open the click-to-preview reader.
+   */
+  function bookMarkup(c, index){
     return (
-      '<article class="card reveal">' +
-        artHtml(c) +
-        '<div class="card-body">' +
-          '<div class="card-meta"><span class="tag">' + c.genre + '</span><span class="tag">' + c.issues + '</span></div>' +
-          '<h3>' + c.title + '</h3>' +
-          '<p class="card-desc">' + c.tagline + '</p>' +
-          '<div class="card-foot"><a href="#" class="text-link">View Series →</a></div>' +
-        '</div>' +
-      '</article>'
+      '<button type="button" class="book reveal" data-comic-index="' + index + '" aria-haspopup="dialog" aria-label="Preview ' + c.title + '">' +
+        '<span class="book-cover-wrap">' +
+          '<span class="book-spine" ' + artStyle(c.artA, c.artB) + '></span>' +
+          artHtml(c, 'book-cover') +
+        '</span>' +
+        '<span class="book-info">' +
+          '<strong>' + c.title + '</strong>' +
+          '<span>' + c.issues + '</span>' +
+        '</span>' +
+      '</button>'
     );
+  }
+
+  function renderShelf(id, items){
+    var el = document.getElementById(id);
+    if(!el) return;
+    el.innerHTML = items.map(function(item, i){ return bookMarkup(item, i); }).join('');
   }
 
   function characterCard(c){
@@ -287,7 +337,7 @@
   }
 
   renderFeatured();
-  renderGrid('comics-grid', CONTENT.comics, comicCard);
+  renderShelf('comics-grid', CONTENT.comics);
   renderGrid('characters-grid', CONTENT.characters, characterCard);
   renderGrid('media-grid', CONTENT.media, mediaCard);
   renderGrid('shop-grid', CONTENT.shop, shopCard);

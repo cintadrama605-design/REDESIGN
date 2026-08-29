@@ -1,0 +1,403 @@
+/* ==========================================================================
+   Impound Comics — Interaction layer
+   Scroll-snap sections, side dot-nav, hover micro-interactions (magnetic
+   buttons, card tilt, cursor ring), and the 3D book shelf + reader.
+
+   MIGRATION NOTE: this whole file is bespoke behavior with no native
+   Squarespace panel equivalent — see documentation/Migration_Guide.md §5.
+   ========================================================================== */
+
+:root{
+  --nav-h: 72px;
+}
+
+body.no-scroll{
+  overflow: hidden;
+}
+
+/* ---------- Scroll snap ----------
+   `proximity` (not `mandatory`) on purpose: sections here hold variable
+   amounts of content (grids can run taller than 100vh on small screens),
+   so snapping only settles near a boundary instead of fighting the user
+   mid-scroll on a tall section. See css/responsive.css for the note on
+   which breakpoint this is written to match. */
+html{
+  scroll-snap-type: y proximity;
+}
+.hero,
+.section,
+.newsletter{
+  scroll-snap-align: start;
+  scroll-margin-top: var(--nav-h);
+}
+.hero,
+.section{
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hero{ display: flex; }
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-snap-type: none; }
+}
+
+/* ---------- Side dot navigation ---------- */
+.dot-nav{
+  position: fixed;
+  right: 28px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dot-nav a{
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+.dot-nav a span{
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--gray-dim);
+  transition: background 0.2s var(--ease), width 0.2s var(--ease), height 0.2s var(--ease);
+}
+.dot-nav a::before{
+  content: attr(data-label);
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--white);
+  background: var(--black-2);
+  border: 1px solid var(--line);
+  padding: 5px 10px;
+  border-radius: var(--radius);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s var(--ease);
+}
+.dot-nav a:hover::before,
+.dot-nav a:focus-visible::before{ opacity: 1; }
+.dot-nav a:hover span,
+.dot-nav a:focus-visible span{ background: var(--white); }
+.dot-nav a.is-active span{
+  background: var(--green);
+  width: 10px; height: 10px;
+}
+
+@media (max-width: 900px){
+  .dot-nav{ display: none; }
+}
+
+/* ---------- Cursor ring (additive — never hides the native cursor) ---------- */
+.cursor-ring{
+  position: fixed;
+  top: 0; left: 0;
+  width: 32px; height: 32px;
+  margin: -16px 0 0 -16px;
+  border: 1px solid var(--green);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0;
+  transform: translate3d(-100px, -100px, 0) scale(1);
+  transition: opacity 0.2s var(--ease), transform 0.12s linear, width 0.2s var(--ease), height 0.2s var(--ease), margin 0.2s var(--ease);
+  will-change: transform;
+}
+.cursor-ring.is-active{ opacity: 1; }
+.cursor-ring.is-hovering{
+  width: 54px; height: 54px;
+  margin: -27px 0 0 -27px;
+  background: rgba(183,255,0,0.08);
+}
+
+/* ---------- Magnetic buttons ---------- */
+.magnetic{
+  will-change: transform;
+  transition: transform 0.25s var(--ease);
+}
+
+/* ---------- Card tilt-on-hover ----------
+   JS sets --rx/--ry per mousemove. Scoped to fine-pointer/hover-capable
+   devices only, so touch/no-JS visitors keep components.css's plain
+   translateY(-4px) lift — same specificity, this block wins here only
+   because the media query matches and it loads after components.css. */
+@media (hover: hover) and (pointer: fine){
+  .card{
+    --rx: 0deg;
+    --ry: 0deg;
+  }
+  .card:hover{
+    border-color: var(--green-dim);
+    transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-4px);
+    transition: border-color 0.2s var(--ease), transform 0.08s linear;
+  }
+}
+
+/* ==========================================================================
+   Comic Explorer — 3D shelf
+   ========================================================================== */
+.shelf{
+  display: flex;
+  gap: clamp(20px, 4vw, 56px);
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 40px 0 20px;
+  perspective: 1600px;
+}
+.book{
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: block;
+  width: clamp(150px, 18vw, 210px);
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+  transform-style: preserve-3d;
+  transform: rotateY(-18deg);
+  transition: transform 0.4s var(--ease);
+}
+.book:hover,
+.book:focus-visible{
+  transform: rotateY(0deg) translateY(-6px);
+}
+.book-cover-wrap{
+  position: relative;
+  display: block;
+}
+.book-spine{
+  position: absolute;
+  width: 18px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  transform: rotateY(-90deg) translateX(-9px);
+  transform-origin: left center;
+  background: linear-gradient(90deg, #000, var(--art-a, #1c1c1a) 60%);
+  border-radius: var(--radius) 0 0 var(--radius);
+}
+.book .art.book-cover{
+  aspect-ratio: 2 / 3;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: 8px 12px 28px rgba(0,0,0,0.55);
+  transform-style: preserve-3d;
+}
+.book .art.book-cover::after{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.35), transparent 14%);
+  pointer-events: none;
+}
+.book-info{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 14px;
+  padding-left: 4px;
+}
+.book-info strong{
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+.book-info span{
+  color: var(--gray);
+  font-size: 0.78rem;
+}
+
+@media (max-width: 900px){
+  .shelf{ perspective: none; }
+  .book{ transform: none; }
+  .book:hover, .book:focus-visible{ transform: translateY(-4px); }
+  .book-spine{ display: none; }
+}
+
+/* ==========================================================================
+   Book reader overlay — click-to-open, seamless cover flip, 5-page preview
+   ========================================================================== */
+.book-reader{
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.book-reader[hidden]{ display: none; }
+
+.book-reader-scrim{
+  position: absolute;
+  inset: 0;
+  background: rgba(3,3,2,0.86);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+}
+.book-reader.is-open .book-reader-scrim{ opacity: 1; }
+
+.book-reader-stage{
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  opacity: 0;
+  transition: opacity 0.25s var(--ease);
+}
+.book-reader.is-open .book-reader-stage{ opacity: 1; }
+
+.book-reader-close{
+  position: absolute;
+  top: -46px;
+  right: 0;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--black-2);
+  color: var(--white);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.book-reader-close:hover{ border-color: var(--green); color: var(--green); }
+
+.book-3d{
+  position: relative;
+  width: min(360px, 78vw);
+  aspect-ratio: 2 / 3;
+  perspective: 2400px;
+}
+
+/* Individual leaf: cover (data-leaf="0") + up to 5 preview pages + a
+   closing CTA leaf. Stacked and flipped left-to-right like a real book. */
+.page{
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transform: rotateY(0deg);
+  transition: transform 0.62s cubic-bezier(.4,.05,.2,1);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 10px 16px 40px rgba(0,0,0,0.6);
+}
+.page.is-flipped{
+  transform: rotateY(-165deg);
+}
+.page-face{
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--black-2);
+  border: 1px solid var(--line);
+}
+.page-face.is-back{
+  transform: rotateY(180deg);
+  background: linear-gradient(155deg, #14140f, var(--black));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-face.is-back::before{
+  content: '';
+  width: 64%;
+  height: 64%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.page-art{
+  position: relative;
+  flex: 1;
+  background: linear-gradient(155deg, var(--art-a, #1c1c1a), var(--art-b, #050505) 70%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 14px;
+}
+.page-art::before{
+  content: attr(data-glyph);
+  font-family: var(--font-display);
+  font-size: 3.6rem;
+  color: rgba(244,241,232,0.12);
+  line-height: 1;
+}
+.page-art img{
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+.page-caption{
+  padding: 14px 16px 16px;
+  font-size: 0.82rem;
+  color: var(--gray);
+  border-top: 1px solid var(--line-soft);
+}
+.page-cta{
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+  height: 100%;
+  justify-content: center;
+}
+.page-cta h4{
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  font-size: 1.4rem;
+}
+.page-cta p{
+  color: var(--gray);
+  font-size: 0.88rem;
+}
+
+.book-reader-controls{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.book-nav-btn{
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--black-2);
+  color: var(--white);
+  cursor: pointer;
+  font-size: 1rem;
+}
+.book-nav-btn:hover:not(:disabled){ border-color: var(--green); color: var(--green); }
+.book-nav-btn:disabled{ opacity: 0.35; cursor: default; }
+.book-page-count{
+  min-width: 96px;
+  text-align: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .page{ transition: none; }
+  .book-reader-scrim, .book-reader-stage{ transition: none; }
+}

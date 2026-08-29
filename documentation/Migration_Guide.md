@@ -116,6 +116,10 @@ the preview is what you're populating:
 
 - `cms/products.json` → Products collection (`title`, `price`, `description`,
   `category`, `image`) — used by both Featured Release and Shop.
+- `cms/comics.json` → Portfolio (or Blog) collection (`title`, `genre`,
+  `issues`, `tagline`, `price`, `image`, `preview_gallery`) — powers the
+  Comic Explorer 3D shelf and its 5-page reader; see §5 for the bespoke
+  interaction that reads `preview_gallery`.
 - `cms/characters.json` → Portfolio collection (`name`, `role`, `bio`, `image`).
 - `cms/media.json` → Video collection (`title`, `type`, `duration`, `video_url`, `thumbnail`).
 - `cms/news.json` → Blog collection (`title`, `date`, `excerpt`, `content`, `image`).
@@ -151,29 +155,79 @@ missing an image.
 
 Squarespace's Style Panel and native blocks cover the large majority of this
 design (colors, fonts, buttons, section backgrounds, grid layout, mobile
-nav, newsletter signup). A short list of things don't have a panel
-equivalent and need Design → Custom CSS (site-wide) or Code Injection:
+nav, newsletter signup). Two tiers of things don't have a panel equivalent:
+small polish that degrades gracefully without it, and one genuinely bespoke
+feature that needs real Code Injection.
+
+### 5a. Small polish (optional, degrades gracefully if skipped)
 
 - **Hero background texture** (`.hero-bg`'s radial gradients + dot overlay)
   — recreate as Custom CSS targeting the hero section, or simplify to a
   real background image/video via the native Image/Video block instead.
-- **Nav underline hover animation** (`.nav-links a::after`) — small,
-  optional; drop it if you'd rather rely on Squarespace's default header
-  hover state.
-- **Card hover lift + border glow** (`.card:hover` transform/border-color)
-  — optional polish; Summary Block v2 has its own built-in hover options
-  that may already cover this without custom code.
-- **Scroll-reveal fade-in** (`.reveal`/`.is-visible`, driven by
-  `js/app.js`'s `IntersectionObserver`) — Squarespace 7.1 has native
-  block-level animation settings (fade/scale on scroll) in the Style
-  Panel; use those instead of porting this JS. Only reach for Code
-  Injection if the native options can't match the timing/easing you want.
+- **Nav underline hover animation** (`.nav-links a::after`) — drop it if
+  you'd rather rely on Squarespace's default header hover state.
 - **Play-button overlay on Media cards** (`.art-media::after`) — likely
   unnecessary once real Video blocks are in, since they show their own.
 
-Everything in that list is a **"nice to have exactly as-is" list, not a
-blocker** — the site is fully functional and on-brand without any of it, via
-native Squarespace styling alone.
+### 5b. Scroll-snap sections + side dot-nav (`css/interactions.css` §1-2, `js/app.js`)
+
+Full-viewport sections with a settling scroll and a right-side progress
+indicator (the Landon Norris–style "one section per view" feel this round
+of changes was built for). This needs:
+
+- **Custom CSS**: the `scroll-snap-type`/`scroll-snap-align`/`min-height:
+  100svh` rules from `css/interactions.css` §"Scroll snap", pasted into
+  Design → Custom CSS as-is (they target plain `.hero`/`.section` classes,
+  which won't exist verbatim in Squarespace — see the fallback note below).
+- **Code Injection**: the dot-nav markup (`#dot-nav` in `index.html`) and
+  its active-section highlighting (`js/app.js`, the `dot-nav` block) added
+  to Site-Wide Code Injection footer, with `href`s pointed at each
+  Section's actual anchor ID in your built page.
+- **Fallback if that's too much custom code for your plan**: skip scroll-snap
+  entirely and let the page scroll normally — nothing else in the design
+  depends on it. Squarespace Sections already support per-section background
+  colors, so the visual "distinct slide" look mostly survives without the
+  snap behavior.
+
+### 5c. Hover micro-interactions (`css/interactions.css`, `js/app.js`)
+
+Magnetic buttons (`.magnetic`), card tilt-on-hover, and the additive cursor
+ring (`#cursor-ring`) are all plain JS mousemove handlers plus CSS — copy
+the relevant blocks from `js/app.js` (magnetic/tilt/cursor sections, clearly
+commented) into Code Injection. All three are wrapped in
+`(hover: hover) and (pointer: fine)` checks and a `prefers-reduced-motion`
+check, so they no-op safely on touch devices — nothing to adjust there.
+Card hover lift/border-glow itself (no tilt) is closer to native — Summary
+Block v2 has its own built-in hover options that may already cover it
+without custom code.
+
+### 5d. The 3D book shelf + click-to-open reader (`css/interactions.css`, `js/book-reader.js`)
+
+This is the one feature with **no native Squarespace equivalent at all** —
+a 3D book shelf (`.shelf`/`.book`) that FLIP-morphs into a full-screen
+reader on click, auto-opens its cover, and flips through 5 preview pages
+plus a closing CTA. To keep it in Squarespace:
+
+1. Add `css/interactions.css`'s shelf/book/`.book-reader` rules and
+   `js/book-reader.js` verbatim via Code Injection (Settings → Advanced →
+   Code Injection, or a page-level Code Block if you only want it on one
+   page).
+2. Replace `window.IMPOUND_CONTENT.comics` (currently populated by
+   `js/content-loader.js` from static JS data) with a fetch against your
+   Comics Collection's API, or hand-write the same shape from Collection
+   data via a Code Block — the reader itself only needs an array of
+   `{ title, tagline, price, glyph, image, alt, artA, artB, pages: [{glyph,
+   caption, artA, artB}, ...] }` objects; `pages` is `preview_gallery`
+   from `cms/comics.json`.
+3. Confirm your Squarespace plan/tier allows the JS this needs (Code
+   Injection availability varies by plan).
+
+**Fallback**: if that's more custom code than you want to maintain in
+Squarespace, drop straight back to a plain Summary Block grid for Comic
+Explorer (same as Universe/Shop) — the shelf/reader is additive polish on
+top of that, not a structural requirement. `data-comic-index` and the
+`.book`/`.card` markup difference is the only thing that would need
+reverting in that case.
 
 ---
 

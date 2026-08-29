@@ -55,4 +55,87 @@
   var yearEl = document.getElementById('year');
   if(yearEl) yearEl.textContent = new Date().getFullYear();
 
+  var fineHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  // Side dot-nav: highlight the section currently in view, click to jump
+  var dotNav = document.getElementById('dot-nav');
+  if(dotNav){
+    var dotLinks = Array.prototype.slice.call(dotNav.querySelectorAll('a'));
+    var sections = dotLinks
+      .map(function(a){ return document.querySelector(a.getAttribute('href')); })
+      .filter(Boolean);
+    if('IntersectionObserver' in window && sections.length){
+      var dotIo = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if(!entry.isIntersecting) return;
+          var id = '#' + entry.target.id;
+          dotLinks.forEach(function(a){
+            a.classList.toggle('is-active', a.getAttribute('href') === id);
+          });
+        });
+      }, { threshold: 0.5 });
+      sections.forEach(function(s){ dotIo.observe(s); });
+    }
+  }
+
+  // Magnetic buttons — pull toward the cursor within their own bounds
+  if(fineHover && !reduceMotion){
+    document.querySelectorAll('.magnetic').forEach(function(el){
+      el.addEventListener('mousemove', function(e){
+        var rect = el.getBoundingClientRect();
+        var x = e.clientX - rect.left - rect.width / 2;
+        var y = e.clientY - rect.top - rect.height / 2;
+        el.style.transform = 'translate(' + (x * 0.25) + 'px,' + (y * 0.35) + 'px)';
+      });
+      el.addEventListener('mouseleave', function(){
+        el.style.transform = 'translate(0,0)';
+      });
+    });
+  }
+
+  // Card tilt-on-hover
+  if(fineHover && !reduceMotion){
+    document.addEventListener('mousemove', function(e){
+      var card = e.target.closest ? e.target.closest('.card') : null;
+      if(!card) return;
+      var rect = card.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width;
+      var py = (e.clientY - rect.top) / rect.height;
+      card.style.setProperty('--ry', ((px - 0.5) * 10) + 'deg');
+      card.style.setProperty('--rx', ((0.5 - py) * 10) + 'deg');
+    });
+    document.addEventListener('mouseout', function(e){
+      var card = e.target.closest ? e.target.closest('.card') : null;
+      if(!card) return;
+      card.style.setProperty('--rx', '0deg');
+      card.style.setProperty('--ry', '0deg');
+    });
+  }
+
+  // Cursor ring — additive trailing ring, never replaces the native cursor
+  var ring = document.getElementById('cursor-ring');
+  if(ring && fineHover && !reduceMotion){
+    var ringX = 0, ringY = 0, mouseX = 0, mouseY = 0, ringActive = false;
+    document.addEventListener('mousemove', function(e){
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      if(!ringActive){
+        ring.classList.add('is-active');
+        ringActive = true;
+      }
+      var hoverTarget = e.target.closest ? e.target.closest('a, button, .book, .card') : null;
+      ring.classList.toggle('is-hovering', !!hoverTarget);
+    });
+    document.addEventListener('mouseleave', function(){
+      ring.classList.remove('is-active');
+      ringActive = false;
+    });
+    (function tick(){
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.transform = 'translate3d(' + ringX + 'px,' + ringY + 'px,0)';
+      window.requestAnimationFrame(tick);
+    })();
+  }
+
 })();
