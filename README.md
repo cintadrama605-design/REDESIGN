@@ -1,8 +1,15 @@
 # Impound Comics — Redesign
 
 A full front-end build-out of the "V12" Squarespace redesign concept: a dark,
-neon-accented site for the Impound Comics universe, structured to convert
-cleanly into Squarespace 7.1 later.
+neon-accented site for the Impound Comics universe, built as a static
+preview that's meant to be migrated into Squarespace 7.1, not run as-is
+long-term.
+
+**Migrating this into Squarespace?** Start with
+[`documentation/Migration_Guide.md`](documentation/Migration_Guide.md) — full
+section-by-section block mapping, Site Styles values, Collection field
+mapping, and what (if anything) needs Custom CSS. `documentation/Squarespace_Block_Map.md`
+is the short reference table version.
 
 ## Preview locally
 
@@ -38,7 +45,10 @@ Copy, character bios, pricing, and art are placeholder — written to match the
 tone implied by the original brand names (Impound, Blasted, HydroBeast,
 Cautious) but not sourced from real canon or real product data. Visual art
 uses generated duotone panels (`.art` in components.css) instead of images,
-since no real assets were available at build time.
+since no real assets were available at build time — every content item has
+an `image`/`alt` field (currently empty) that renders a real `<img>` the
+moment it's filled in, no code changes needed. See
+`documentation/Migration_Guide.md` §4 for how that seam works.
 
 **Before shipping:** swap in real cover art / photography, real character
 bios and credits, real pricing and product URLs, and real blog posts. The

@@ -38,6 +38,15 @@
 
 <main id="main">
 
+  <!-- SQSP: Header — replace with Squarespace's global Header Section
+       (Design > Header). Logo, nav links, and the "Shop Now" CTA all map
+       to native Header options; the mobile hamburger is automatic in
+       Squarespace and js/app.js's nav-toggle code can be dropped. -->
+
+  <!-- SQSP: Fluid Engine Section > Image + Text + Button blocks.
+       hero-bg's gradient/dot texture has no native equivalent — keep it
+       via Custom CSS (Design > Custom CSS) targeting this section, or
+       drop it for a real background image/video in the Image block. -->
   <section class="hero">
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-content">
@@ -52,6 +61,10 @@
     <a href="#featured" class="scroll-cue" aria-label="Scroll to content"><span></span></a>
   </section>
 
+  <!-- SQSP: Commerce Product Block, pinned to the site's top-selling /
+       newest Product. Fields → title, description, price, image(s):
+       see cms/products.json. "Buy Now" becomes the block's native
+       Add to Cart / Buy Now button. -->
   <section id="featured" class="section">
     <div class="section-head">
       <div>
@@ -62,6 +75,11 @@
     <div id="featured-card"></div>
   </section>
 
+  <!-- SQSP: Summary Block (v2), source = a "Comics" Collection (Blog or
+       Portfolio type — pick whichever gives per-title pages you want).
+       Fields → title, genre, issue count, tagline, cover image: see
+       cms/products.json / a dedicated comics collection. Grid layout =
+       Summary Block's Grid design, 4 cols desktop / 1 col mobile. -->
   <section id="comics" class="section">
     <div class="section-head">
       <div>
@@ -73,6 +91,8 @@
     <div class="grid grid-4" id="comics-grid"></div>
   </section>
 
+  <!-- SQSP: Summary Block (v2), source = Portfolio Collection.
+       Fields → name, role, bio, portrait image: see cms/characters.json. -->
   <section id="universe" class="section section-alt">
     <div class="section-head">
       <div>
@@ -84,6 +104,11 @@
     <div class="grid grid-4" id="characters-grid"></div>
   </section>
 
+  <!-- SQSP: Video Collection (Summary Block v2 or native Gallery/Video
+       Collection block). Fields → title, type, duration, video URL,
+       thumbnail: see cms/media.json. Play-button overlay is Custom CSS
+       on .art-media — native Video blocks already show one, so this can
+       likely be dropped entirely once real embeds are in. -->
   <section id="media" class="section">
     <div class="section-head">
       <div>
@@ -94,6 +119,10 @@
     <div class="grid grid-3" id="media-grid"></div>
   </section>
 
+  <!-- SQSP: Commerce Collection (Summary Block v2, source = Products).
+       Fields → title, category, price, product image: see
+       cms/products.json. "Add To Cart" becomes the block's native
+       Quick Add / Add to Cart action. -->
   <section id="shop" class="section section-alt">
     <div class="section-head">
       <div>
@@ -105,6 +134,9 @@
     <div class="grid grid-4" id="shop-grid"></div>
   </section>
 
+  <!-- SQSP: Blog Collection (Summary Block v2, source = Blog).
+       Fields → title, date, excerpt, body, thumbnail: see
+       cms/news.json. -->
   <section id="news" class="section">
     <div class="section-head">
       <div>
@@ -115,6 +147,9 @@
     <div class="grid grid-3" id="news-grid"></div>
   </section>
 
+  <!-- SQSP: Newsletter Block (Design > native Email Campaigns signup
+       block). Replaces the custom form + js/app.js stub outright —
+       Squarespace handles storage, double opt-in, and Campaigns sync. -->
   <section class="newsletter">
     <div class="newsletter-inner">
       <h2>Join The Impound Underground</h2>
@@ -129,6 +164,10 @@
   </section>
 
 </main>
+
+<!-- SQSP: Footer — replace with Squarespace's global Footer Section.
+     The 3 link columns map to Footer Text/Link blocks arranged in
+     columns; social icons map to a native Social Links Block. -->
 
 <footer class="footer">
   <div class="footer-inner">

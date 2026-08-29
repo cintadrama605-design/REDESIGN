@@ -1,5 +1,16 @@
 /* ==========================================================================
    Impound Comics — Responsive
+
+   MIGRATION NOTE: Squarespace 7.1's Fluid Engine only has two real
+   breakpoints per section — Desktop and Mobile — switched at a single
+   cutoff you set per-section in the editor (confirm the exact px value
+   in your site's Fluid Engine, template versions have varied). The
+   900px breakpoint below is written to line up with that cutoff: nav,
+   grids, and layout all fully commit to their mobile arrangement there,
+   so a Fluid Engine mobile layout built from this design won't need any
+   extra breakpoint. The 1100px tier is a desktop-only density tweak
+   (4-col → 3-col before the real mobile switch) with no Fluid Engine
+   equivalent — safe to drop if you'd rather match Squarespace 1:1.
    ========================================================================== */
 
 @media (max-width: 1100px){
