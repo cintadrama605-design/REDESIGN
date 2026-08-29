@@ -18,7 +18,12 @@ section-by-section block mapping, Site Styles values, Collection field
 mapping, and what (if anything) needs Custom CSS. `documentation/Squarespace_Block_Map.md`
 is the short reference table version.
 
-## Preview locally
+## Preview locally (fully offline)
+
+The site has zero external network dependencies — fonts are self-hosted in
+`fonts/` (see `css/fonts.css`), all content is embedded in
+`js/content-loader.js`, and there's no CDN JS or analytics. Turn off your
+network entirely and it still renders pixel-identical.
 
 Any static file server works, e.g.:
 
@@ -28,14 +33,17 @@ python3 -m http.server 8000
 
 Then open `http://localhost:8000`.
 
-(Opening `index.html` directly by double-click also works — content is
-embedded in `js/content-loader.js`, no fetch/CORS dependency.)
+(Opening `index.html` directly by double-click also works — no server
+required, since there's no fetch/CORS dependency either.)
 
 ## Structure
 
 ```
 index.html              Page markup — Hero, Featured Release, Comic Explorer,
                          Universe, Media, Shop, News, Newsletter, Footer
+fonts/                   Self-hosted Anton + Inter (woff2, Latin subset) —
+                         see css/fonts.css. Makes the preview work fully offline.
+css/fonts.css            @font-face declarations for the fonts above
 css/theme.css            Design tokens (color, type, spacing) + base styles
 css/components.css       Nav, hero, cards, grids, buttons, footer, newsletter
 css/interactions.css     Scroll-snap, side dot-nav, magnetic/tilt/cursor hover

@@ -29,6 +29,10 @@ belong in Squarespace:
 2. **`js/app.js`'s mobile nav toggle** — Squarespace's native header is
    already responsive with its own mobile menu. This code has nothing to
    attach to once the header is native — delete it at migration, don't port it.
+3. **`fonts/` + `css/fonts.css`** — self-hosted so this preview works fully
+   offline (see README.md). In Squarespace, use Site Styles' own Google
+   Fonts picker instead (§1 below) — don't upload these files or paste the
+   `@font-face` rules into Custom CSS.
 
 Everything else — the six content sections between header and footer — is
 what actually needs migrating, section by section, below.
