@@ -129,20 +129,26 @@ html{
   transition: transform 0.25s var(--ease);
 }
 
-/* ---------- Card tilt-on-hover ----------
+/* ---------- Tilt-on-hover (cards + merch tiles) ----------
    JS sets --rx/--ry per mousemove. Scoped to fine-pointer/hover-capable
    devices only, so touch/no-JS visitors keep components.css's plain
    translateY(-4px) lift — same specificity, this block wins here only
    because the media query matches and it loads after components.css. */
 @media (hover: hover) and (pointer: fine){
-  .card{
+  .card, .merch-tile .art{
     --rx: 0deg;
     --ry: 0deg;
   }
   .card:hover{
     border-color: var(--green-dim);
-    transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-4px);
+    transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-4px) scale(1.02);
     transition: border-color 0.2s var(--ease), transform 0.08s linear;
+  }
+  .merch-tile{ perspective: 900px; }
+  .merch-tile .art:hover{
+    transform: rotateX(var(--rx)) rotateY(var(--ry)) scale(1.05);
+    transition: transform 0.08s linear;
+    box-shadow: 0 20px 34px rgba(0,0,0,0.4);
   }
 }
 
@@ -158,6 +164,8 @@ html{
   perspective: 1600px;
 }
 .book{
+  --rx: 0deg;
+  --ry: 0deg;
   appearance: none;
   background: none;
   border: 0;
@@ -169,12 +177,19 @@ html{
   color: inherit;
   text-align: left;
   transform-style: preserve-3d;
-  transform: rotateY(-18deg);
+  transform: rotateY(-28deg);
   transition: transform 0.4s var(--ease);
 }
 .book:hover,
 .book:focus-visible{
-  transform: rotateY(0deg) translateY(-6px);
+  transform: rotateY(0deg) translateY(-8px) scale(1.04);
+}
+@media (hover: hover) and (pointer: fine){
+  .book:hover,
+  .book:focus-visible{
+    transform: perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-8px) scale(1.05);
+    transition: transform 0.08s linear;
+  }
 }
 .book-cover-wrap{
   position: relative;
@@ -280,7 +295,7 @@ html{
 
 .book-3d{
   position: relative;
-  width: min(360px, 78vw);
+  width: min(480px, 86vw);
   aspect-ratio: 2 / 3;
   perspective: 2400px;
 }
@@ -337,7 +352,7 @@ html{
 .page-art::before{
   content: attr(data-glyph);
   font-family: var(--font-display);
-  font-size: 3.6rem;
+  font-size: 4.8rem;
   color: rgba(244,241,232,0.12);
   line-height: 1;
 }
@@ -348,8 +363,8 @@ html{
   object-fit: cover;
 }
 .page-caption{
-  padding: 14px 16px 16px;
-  font-size: 0.82rem;
+  padding: 16px 20px 20px;
+  font-size: 0.98rem;
   color: var(--gray);
   border-top: 1px solid var(--line-soft);
 }
@@ -365,11 +380,11 @@ html{
 .page-cta h4{
   font-family: var(--font-display);
   text-transform: uppercase;
-  font-size: 1.4rem;
+  font-size: 1.8rem;
 }
 .page-cta p{
   color: var(--gray);
-  font-size: 0.88rem;
+  font-size: 1rem;
 }
 
 .book-reader-controls{
@@ -478,4 +493,179 @@ p.fan-follow{
 
 @media (prefers-reduced-motion: reduce){
   .fan-card{ transition: none; }
+}
+
+/* ==========================================================================
+   Book stack — bundle products (Shop). A loose overlapping stack of mini
+   covers, each independently hoverable, echoing the real site's fanned-
+   covers bundle banners. No native Squarespace equivalent — see
+   documentation/Migration_Guide.md §5.
+   ========================================================================== */
+.book-stack{
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  perspective: 1200px;
+}
+.stack-cover{
+  position: absolute;
+  inset: 14% 20%;
+  display: block;
+  transition: transform 0.3s var(--ease), z-index 0s;
+}
+.stack-cover .art{
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: 4px;
+  box-shadow: 4px 8px 18px rgba(0,0,0,0.5);
+}
+@media (hover: hover) and (pointer: fine){
+  .stack-cover:hover{
+    transform: translate(0, -14px) rotate(0deg) scale(1.12) !important;
+    z-index: 50 !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .stack-cover{ transition: none; }
+}
+
+/* ==========================================================================
+   Trading Card Game — 3D box + click-to-open 5-card preview. No native
+   Squarespace equivalent — see documentation/Migration_Guide.md §5.
+   ========================================================================== */
+.tcg-stage{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  perspective: 1400px;
+}
+.tcg-box{
+  --rx: 0deg;
+  --ry: 0deg;
+  position: relative;
+  display: block;
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+  max-width: 320px;
+  transform-style: preserve-3d;
+  transform: rotateY(-24deg);
+  transition: transform 0.5s var(--ease), opacity 0.4s var(--ease);
+}
+.tcg-box:hover,
+.tcg-box:focus-visible{
+  transform: rotateY(-6deg) scale(1.04);
+}
+@media (hover: hover) and (pointer: fine){
+  .tcg-box:hover,
+  .tcg-box:focus-visible{
+    transform: perspective(1200px) rotateX(var(--rx)) rotateY(calc(-6deg + var(--ry))) scale(1.05);
+    transition: transform 0.08s linear;
+  }
+}
+.tcg-box-side{
+  position: absolute;
+  width: 26px;
+  height: 100%;
+  left: 0;
+  top: 0;
+  transform: rotateY(-90deg) translateX(-13px);
+  transform-origin: left center;
+  background: linear-gradient(180deg, #000, var(--art-a, #1c2a12) 60%);
+}
+.art.tcg-box-front{
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  box-shadow: 10px 16px 34px rgba(0,0,0,0.6);
+}
+.tcg-stage.is-open .tcg-box{
+  transform: rotateY(-24deg) translateX(-26%) translateY(10px) scale(0.6);
+  opacity: 0.5;
+}
+
+.tcg-cards{
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 0;
+  padding-top: 4px;
+  perspective: 1200px;
+  transition: height 0.4s var(--ease);
+}
+.tcg-stage.is-open .tcg-cards{
+  height: clamp(170px, 22vw, 210px);
+}
+.tcg-card{
+  position: absolute;
+  width: clamp(96px, 11vw, 132px);
+  aspect-ratio: 2 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--black-2);
+  border: 1px solid var(--line);
+  box-shadow: 6px 10px 22px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(0, 0) rotate(0deg) scale(0.3);
+  transition: transform 0.5s var(--ease), opacity 0.3s var(--ease);
+}
+.tcg-stage.is-open .tcg-card{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(1);
+}
+.tcg-card-art{
+  display: block;
+  flex: 1;
+  position: relative;
+  background: linear-gradient(155deg, var(--art-a, #1c1c1a), var(--art-b, #050505) 70%);
+}
+.tcg-card-art::after{
+  content: attr(data-glyph);
+  position: absolute;
+  right: 6px;
+  bottom: 4px;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: rgba(244,241,232,0.25);
+}
+.tcg-card-type{
+  padding: 6px 8px 0;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.tcg-card-name{
+  padding: 0 8px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+@media (hover: hover) and (pointer: fine){
+  .tcg-stage.is-open .tcg-card:hover{
+    transform: translate(var(--tx), calc(var(--ty) - 22px)) rotate(0deg) scale(1.1) !important;
+    z-index: 20;
+    box-shadow: 8px 16px 30px rgba(0,0,0,0.6);
+  }
+}
+
+@media (max-width: 900px){
+  .tcg-box{ transform: none; }
+  .tcg-box:hover, .tcg-box:focus-visible{ transform: scale(1.02); }
+  .tcg-box-side{ display: none; }
+  .tcg-stage.is-open .tcg-box{ transform: scale(0.8); opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .tcg-box, .tcg-card, .tcg-cards{ transition: none; }
 }

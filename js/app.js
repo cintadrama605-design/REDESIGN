@@ -85,7 +85,7 @@
         var rect = el.getBoundingClientRect();
         var x = e.clientX - rect.left - rect.width / 2;
         var y = e.clientY - rect.top - rect.height / 2;
-        el.style.transform = 'translate(' + (x * 0.25) + 'px,' + (y * 0.35) + 'px)';
+        el.style.transform = 'translate(' + (x * 0.3) + 'px,' + (y * 0.4) + 'px)';
       });
       el.addEventListener('mouseleave', function(){
         el.style.transform = 'translate(0,0)';
@@ -93,22 +93,33 @@
     });
   }
 
-  // Card tilt-on-hover
+  // Tilt-on-hover — cards, book covers, and merch tiles all get a
+  // cursor-tracked 3D tilt. Books get the most dramatic angle (they're
+  // already leaning in 3D on the shelf); cards/merch stay subtler.
+  var TILT_TARGETS = '.card, .book, .merch-tile .art, .tcg-box';
+  function tiltMaxDeg(el){
+    if(el.classList.contains('book') || el.classList.contains('tcg-box')) return 16;
+    return 12;
+  }
   if(fineHover && !reduceMotion){
     document.addEventListener('mousemove', function(e){
-      var card = e.target.closest ? e.target.closest('.card') : null;
-      if(!card) return;
-      var rect = card.getBoundingClientRect();
+      var el = e.target.closest ? e.target.closest(TILT_TARGETS) : null;
+      // Bundle cards (.book-stack cover) already get per-cover hover-lift;
+      // skip the whole-card tilt there so the two effects don't fight.
+      if(el && el.classList.contains('card') && el.querySelector('.book-stack')) return;
+      if(!el) return;
+      var rect = el.getBoundingClientRect();
       var px = (e.clientX - rect.left) / rect.width;
       var py = (e.clientY - rect.top) / rect.height;
-      card.style.setProperty('--ry', ((px - 0.5) * 10) + 'deg');
-      card.style.setProperty('--rx', ((0.5 - py) * 10) + 'deg');
+      var max = tiltMaxDeg(el);
+      el.style.setProperty('--ry', ((px - 0.5) * max) + 'deg');
+      el.style.setProperty('--rx', ((0.5 - py) * max) + 'deg');
     });
     document.addEventListener('mouseout', function(e){
-      var card = e.target.closest ? e.target.closest('.card') : null;
-      if(!card) return;
-      card.style.setProperty('--rx', '0deg');
-      card.style.setProperty('--ry', '0deg');
+      var el = e.target.closest ? e.target.closest(TILT_TARGETS) : null;
+      if(!el) return;
+      el.style.setProperty('--rx', '0deg');
+      el.style.setProperty('--ry', '0deg');
     });
   }
 
@@ -123,7 +134,7 @@
         ring.classList.add('is-active');
         ringActive = true;
       }
-      var hoverTarget = e.target.closest ? e.target.closest('a, button, .book, .card') : null;
+      var hoverTarget = e.target.closest ? e.target.closest('a, button, .book, .card, .tcg-box, .tcg-card, .stack-cover') : null;
       ring.classList.toggle('is-hovering', !!hoverTarget);
     });
     document.addEventListener('mouseleave', function(){

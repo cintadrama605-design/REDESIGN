@@ -136,12 +136,16 @@
     <div class="grid grid-3" id="media-grid"></div>
   </section>
 
-  <!-- SQSP: no direct block equivalent — this is a single Product (the
-       trading card game) presented as its own promo section. Use a
+  <!-- SQSP: base layout has no direct block equivalent — a single Product
+       (the trading card game) presented as its own promo section. Use a
        Fluid Engine Section with an Image block (box art) + Text/Button,
        or a Commerce Product Block if the TCG is sold as a Product.
        Fields → title, subtitle, description, meta, image: see
-       cms/cardgame.json. -->
+       cms/cardgame.json.
+       BESPOKE: the 3D box + click-to-open 5-card preview (js/tcg.js) is
+       fully custom — no native equivalent at all. See
+       documentation/Migration_Guide.md §5 for the Code Injection version,
+       or fall back to a static box image + Buy button. -->
   <section id="cardgame" class="section section-alt">
     <div class="section-head">
       <div>
@@ -155,7 +159,11 @@
   <!-- SQSP: Commerce Collection (Summary Block v2, source = Products).
        Fields → title, category, price, product image: see
        cms/products.json. "Add To Cart" becomes the block's native
-       Quick Add / Add to Cart action. -->
+       Quick Add / Add to Cart action.
+       BESPOKE: bundle products render as a hoverable "book stack" of
+       mini covers (js/content-loader.js's stackCoverHtml()) instead of a
+       single image — no native equivalent; falls back to a single
+       product image per bundle with no code changes needed. -->
   <section id="shop" class="section">
     <div class="section-head">
       <div>
@@ -314,6 +322,7 @@
 
 <script src="js/content-loader.js"></script>
 <script src="js/book-reader.js"></script>
+<script src="js/tcg.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

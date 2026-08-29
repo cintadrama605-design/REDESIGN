@@ -216,15 +216,24 @@ of changes was built for). This needs:
 
 ### 5c. Hover micro-interactions (`css/interactions.css`, `js/app.js`)
 
-Magnetic buttons (`.magnetic`), card tilt-on-hover, and the additive cursor
-ring (`#cursor-ring`) are all plain JS mousemove handlers plus CSS — copy
-the relevant blocks from `js/app.js` (magnetic/tilt/cursor sections, clearly
-commented) into Code Injection. All three are wrapped in
-`(hover: hover) and (pointer: fine)` checks and a `prefers-reduced-motion`
-check, so they no-op safely on touch devices — nothing to adjust there.
-Card hover lift/border-glow itself (no tilt) is closer to native — Summary
-Block v2 has its own built-in hover options that may already cover it
-without custom code.
+Magnetic buttons (`.magnetic`), cursor-tracked 3D tilt (cards, book covers,
+merch tiles, the trading-card box), and the additive cursor ring
+(`#cursor-ring`) are all plain JS mousemove handlers plus CSS — copy the
+relevant blocks from `js/app.js` (magnetic/tilt/cursor sections, clearly
+commented) into Code Injection. All are wrapped in `(hover: hover) and
+(pointer: fine)` checks and a `prefers-reduced-motion` check, so they no-op
+safely on touch devices — nothing to adjust there. Card hover lift/border-
+glow itself (no tilt) is closer to native — Summary Block v2 has its own
+built-in hover options that may already cover it without custom code.
+
+Two more bespoke pieces in this same "hover interaction" family, each with
+its own fallback:
+- **Bundle book-stack** (Shop): bundle products render as a hoverable
+  stack of mini covers instead of one image — see §2's Shop row. Falls
+  back to a single product image with zero code changes.
+- **Trading-card box + 5-card preview** (§2's Trading Card Game row):
+  covered in its own tier below since it needs actual Code Injection
+  (JS state, not just CSS), unlike the tilt effects above.
 
 ### 5d. The 3D book shelf + click-to-open reader (`css/interactions.css`, `js/book-reader.js`)
 
@@ -269,6 +278,23 @@ placeholder art.
 (exactly what the real site's own social icons already map to) — the
 fan gallery is a stylistic flourish, not something the site depends on
 structurally.
+
+### 5f. Trading-card box + 5-card preview (`css/interactions.css`, `js/tcg.js`)
+
+Clicking the "Impound Chaos" box (or the "Preview 5 Cards" button) deals
+5 sample cards out into a fanned, individually-hoverable hand — same
+family as the book reader in terms of needing real JS state, but far
+simpler (one open/close toggle, no page-flip sequencing). To keep it:
+
+1. Add the `.tcg-*` rules from `css/interactions.css` and `js/tcg.js`
+   verbatim via Code Injection.
+2. Point `CONTENT.cardGame.cards` (currently 5 static placeholder pulls —
+   Champion/Ability/Power flavor text, not a real print run) at whatever
+   real card data you want to showcase, or leave it as a generic "here's
+   what a pull looks like" demo.
+
+**Fallback**: drop straight to the static box image + Buy button — the
+5-card preview is a delight-add, not something the purchase flow depends on.
 
 ---
 

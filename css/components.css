@@ -476,9 +476,10 @@
 /* ---------- Card Game section ---------- */
 .cardgame{
   display: grid;
-  grid-template-columns: 1fr 0.8fr;
+  grid-template-columns: 1fr 0.9fr;
   gap: 48px;
-  align-items: center;
+  align-items: start;
+  padding-top: 24px;
 }
 .cardgame-copy{
   display: flex;
@@ -500,12 +501,11 @@
   color: var(--gray);
   max-width: 46ch;
 }
-.cardgame-actions{ margin-top: 8px; }
-.art.cardgame-box{
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  max-width: 340px;
-  margin-left: auto;
+.cardgame-actions{
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
 }
 
 /* ---------- Officer Grey promo section (distinct sub-brand) ---------- */

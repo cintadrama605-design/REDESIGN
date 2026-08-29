@@ -50,13 +50,16 @@ css/components.css       Nav, hero, cards, grids, buttons, footer, newsletter,
                          Card Game / Officer Grey / Merch section layouts,
                          light-section variant
 css/interactions.css     Scroll-snap, side dot-nav, magnetic/tilt/cursor hover
-                         effects, 3D book shelf + reader overlay, Socials fan
-                         gallery (all bespoke — see documentation/Migration_Guide.md §5)
+                         effects, 3D book shelf + reader overlay, TCG box + card
+                         fan, bundle book-stack, Socials fan gallery (all bespoke
+                         — see documentation/Migration_Guide.md §5)
 css/responsive.css       Breakpoints (mobile nav, grid collapse)
 js/content-loader.js     Content data + render functions for every section
 js/book-reader.js        3D book shelf click-to-open reader (FLIP morph, page flips)
+js/tcg.js                Trading-card box open/close toggle (5-card fan preview)
 js/app.js                Mobile nav toggle, scroll-reveal, dot-nav sync, magnetic
-                         buttons, card tilt, cursor ring, newsletter stub, footer year
+                         buttons, cursor-tracked tilt, cursor ring, newsletter
+                         stub, footer year
 cms/*.json                Field schemas + sample records per collection, mapped
                          to the Squarespace blocks in documentation/Squarespace_Block_Map.md
 documentation/            Design rationale + Squarespace block mapping + migration guide
@@ -112,15 +115,23 @@ those alongside the actual Squarespace collections during migration.
   IntersectionObserver-based scroll reveal on cards — all respect
   `prefers-reduced-motion` (scroll-snap and animations disable outright;
   content still renders, just without the motion).
-- **Hover:** magnetic buttons on primary CTAs, 3D tilt-on-hover for cards,
-  and an additive cursor ring that never hides the native cursor — all
-  scoped to `(hover: hover) and (pointer: fine)`, so touch devices get the
-  plain, fully-functional fallback with nothing missing.
-- **Comic Explorer:** a 3D book shelf — click a cover and it FLIP-morphs
-  into a full-screen reader, the cover swings open, and you flip through 5
-  preview pages plus a closing CTA. Keyboard accessible (arrow keys, Tab
-  trap, Escape to close), and degrades to instant open/close under
+- **Hover:** magnetic buttons on primary CTAs, cursor-tracked 3D tilt on
+  cards, merch tiles, and the trading-card box, and an additive cursor
+  ring that never hides the native cursor — all scoped to `(hover: hover)
+  and (pointer: fine)`, so touch devices get the plain, fully-functional
+  fallback with nothing missing.
+- **Comic Explorer:** a 3D book shelf (steep shelf lean + live cursor
+  tilt on hover) — click a cover and it FLIP-morphs into a full-screen
+  reader at 2x the original size, the cover swings open, and you flip
+  through 5 preview pages plus a closing CTA. Keyboard accessible (arrow
+  keys, Tab trap, Escape to close), degrades to instant open/close under
   `prefers-reduced-motion`.
+- **Trading Card Game:** a real 3D box (side panel + cursor tilt) — click
+  it (or "Preview 5 Cards") to deal 5 sample cards into a fanned hand,
+  each independently hoverable.
+- **Bundle products (Shop):** render as a hoverable stack of mini covers
+  instead of a single image, echoing the real site's fanned-covers bundle
+  banners.
 - **Socials:** a fanned "hand of cards" gallery styled after the Landon
   Norris reference, in a light cream section — the one deliberate light
   break in an otherwise dark page.

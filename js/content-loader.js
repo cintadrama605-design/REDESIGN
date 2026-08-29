@@ -251,14 +251,26 @@
         category: "Bundle",
         price: "$120.00",
         glyph: "★", image: "", alt: "Impound Epic Bundle — 8 comics",
-        artA: "#1c2a12", artB: "#050505"
+        artA: "#1c2a12", artB: "#050505",
+        covers: [
+          { glyph: "I", artA: "#242a12", artB: "#050505" },
+          { glyph: "B", artA: "#2a1712", artB: "#050505" },
+          { glyph: "C", artA: "#1c1c22", artB: "#050505" },
+          { glyph: "H", artA: "#0f2224", artB: "#050505" }
+        ]
       },
       {
         title: "Impound Digital Universe Bundle",
         category: "Bundle",
         price: "$40.00",
         glyph: "★", image: "", alt: "Impound Digital Universe Bundle",
-        artA: "#1c2a12", artB: "#050505"
+        artA: "#1c2a12", artB: "#050505",
+        covers: [
+          { glyph: "S", artA: "#2a0f14", artB: "#050505" },
+          { glyph: "U", artA: "#1a0f22", artB: "#050505" },
+          { glyph: "E", artA: "#241a05", artB: "#050505" },
+          { glyph: "I", artA: "#242a12", artB: "#050505" }
+        ]
       },
       {
         title: "Impound Vs. Flame — Issue #1",
@@ -319,6 +331,8 @@
 
     // Real: "Impound Chaos" Trading Card Game — 52 cards/pack, 1st
     // Edition TCG Series, Random Card Flip (Champion / Ability / Power).
+    // The 5 sample cards below are illustrative placeholder pulls, not a
+    // real print run — they exist to demonstrate the pack-open preview.
     cardGame: {
       title: "Impound Chaos",
       subtitle: "Trading Card Game",
@@ -326,7 +340,14 @@
       meta: "1st Edition TCG Series",
       glyph: "IC",
       image: "", alt: "Impound Chaos trading card game box art",
-      artA: "#1c2a12", artB: "#050505"
+      artA: "#1c2a12", artB: "#050505",
+      cards: [
+        { type: "Champion", name: "Impound", glyph: "I", artA: "#242a12", artB: "#050505" },
+        { type: "Ability", name: "Chain Burst", glyph: "B", artA: "#2a1712", artB: "#050505" },
+        { type: "Power", name: "Ice Core", glyph: "H", artA: "#0f2224", artB: "#050505" },
+        { type: "Champion", name: "Seraph", glyph: "S", artA: "#2a0f14", artB: "#050505" },
+        { type: "Ability", name: "Flag Guard", glyph: "C", artA: "#1c1c22", artB: "#050505" }
+      ]
     },
 
     // Real: "Officer Grey", a found-footage horror movie from the
@@ -461,10 +482,32 @@
     );
   }
 
+  /**
+   * A loose stack of overlapping mini covers (bundle products) — each
+   * cover pops forward independently on hover, echoing the real site's
+   * fanned-covers bundle banners.
+   */
+  function stackCoverHtml(cover, i, total){
+    var mid = (total - 1) / 2;
+    var offset = i - mid;
+    var rotate = offset * 7;
+    var translateX = offset * 10;
+    var translateY = Math.abs(offset) * 6;
+    var z = 10 + (total - Math.abs(i - mid) * 2);
+    return (
+      '<span class="stack-cover" style="transform:translate(' + translateX + 'px,' + translateY + 'px) rotate(' + rotate + 'deg);z-index:' + Math.round(z) + '">' +
+        artHtml(cover, 'stack-cover-art') +
+      '</span>'
+    );
+  }
+
   function shopCard(p){
+    var art = p.covers
+      ? '<span class="book-stack">' + p.covers.map(function(c, i){ return stackCoverHtml(c, i, p.covers.length); }).join('') + '</span>'
+      : artHtml(p, 'art-square');
     return (
       '<article class="card reveal">' +
-        artHtml(p, 'art-square') +
+        art +
         '<div class="card-body">' +
           '<span class="tag">' + p.category + '</span>' +
           '<h3 style="font-size:1.1rem">' + p.title + '</h3>' +
@@ -488,6 +531,27 @@
     );
   }
 
+  /**
+   * One card in the "5 card preview" fan dealt out from the trading-card
+   * box (js/tcg.js toggles .tcg-stage.is-open, which reads these --tx/
+   * --ty/--rot custom properties to animate each card into place).
+   */
+  function tcgCardHtml(c, i, total){
+    var mid = (total - 1) / 2;
+    var offset = i - mid;
+    var tx = offset * 92;
+    var ty = Math.abs(offset) * 16;
+    var rot = offset * 11;
+    var delay = Math.abs(offset) * 70;
+    return (
+      '<div class="tcg-card" style="--tx:' + tx + 'px;--ty:' + ty + 'px;--rot:' + rot + 'deg;transition-delay:' + delay + 'ms">' +
+        '<span class="tcg-card-art" data-glyph="' + c.glyph + '" style="--art-a:' + c.artA + ';--art-b:' + c.artB + '"></span>' +
+        '<span class="tcg-card-type">' + c.type + '</span>' +
+        '<span class="tcg-card-name">' + c.name + '</span>' +
+      '</div>'
+    );
+  }
+
   function renderCardGame(){
     var g = CONTENT.cardGame;
     var el = document.getElementById('cardgame-content');
@@ -501,9 +565,18 @@
           '<span class="tag">' + g.meta + '</span>' +
           '<div class="cardgame-actions">' +
             '<a href="#" class="btn btn-primary magnetic">Purchase Here</a>' +
+            '<button type="button" class="btn btn-ghost magnetic" id="tcg-preview-btn" aria-expanded="false">Preview 5 Cards</button>' +
           '</div>' +
         '</div>' +
-        artHtml(g, 'cardgame-box') +
+        '<div class="tcg-stage" id="tcg-stage">' +
+          '<button type="button" class="tcg-box" id="tcg-box" aria-label="Open pack preview" aria-expanded="false">' +
+            '<span class="tcg-box-side" style="--art-a:' + g.artA + ';--art-b:' + g.artB + '"></span>' +
+            artHtml(g, 'tcg-box-front') +
+          '</button>' +
+          '<div class="tcg-cards">' +
+            g.cards.map(function(c, i){ return tcgCardHtml(c, i, g.cards.length); }).join('') +
+          '</div>' +
+        '</div>' +
       '</div>';
   }
 
